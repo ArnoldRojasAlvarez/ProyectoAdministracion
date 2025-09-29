@@ -1,15 +1,19 @@
 import React from 'react';
 import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import woodBg from '../assets/images/wood-bg.jpg';
 
 const Footer = () => {
-    const bgColor = 'bg-[#3d2c20]';
     const redButtonColor = 'bg-[#8b2e22]';
     const yellowBorderColor = 'border-[#b8812e]';
 
     return (
-        <footer className={`${bgColor} text-white py-12 border-t border-gray-700 px-3`}>
-            <div className="mx-auto px-3">
+        <footer
+            className="relative text-white py-12 border-t border-gray-700 px-3 bg-cover bg-center"
+            style={{ backgroundImage: `url(${woodBg})` }}
+        >
+            <div className="absolute inset-0 bg-[#3d2c20]/90"></div>
+            <div className="relative mx-auto px-3">
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-y-10 md:gap-y-8 md:gap-x-8">
 
                     <div className="md:col-span-2 space-y-3">

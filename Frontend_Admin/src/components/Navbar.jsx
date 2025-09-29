@@ -15,8 +15,15 @@ const Navbar = () => {
         }`;
 
     return (
-        <nav className="relative bg-[#643c1f] shadow-md z-50 px-3">
-            <div className="w-full px-3 py-3 flex justify-between items-center text-white">
+        <nav
+            className="relative shadow-md z-50 px-3"
+            style={{
+                backgroundImage: 'url(/src/assets/images/wood-bg.jpg)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+            }}
+        >
+            <div className="w-full px-3 py-3 flex justify-between items-center text-white bg-[#643c1f]/80">
                 {/* Logo remains first on the left */}
                 <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
                     <div className="h-10 px-3 py- text-sm flex items-center justify-center rounded">
