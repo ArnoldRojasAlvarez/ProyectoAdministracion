@@ -18,11 +18,11 @@ const Footer = () => {
 
                     <div className="md:col-span-2 space-y-3">
                         <div className="flex flex-col items-start">
-                            <div className="h-16 w-32 px-3 py-2 text-gray-300 text-sm flex items-center justify-center rounded mb-2">
+                            <div className="h-24 w-48 px-3 py-2 text-gray-300 text-sm flex items-center justify-start rounded mb-2">
                                 <img
                                     src="https://tilapiasquecoscr.com/wp-content/uploads/2023/03/Steak-House.webp"
                                     alt="Steak House Logo"
-                                    className="h-24 w-auto object-contain"
+                                    className="h-32 w-auto object-contain"
                                 />
                             </div>
                         </div>
@@ -41,7 +41,7 @@ const Footer = () => {
 
                     <div>
                         <h4 className="text-lg font-semibold mb-4 border-b-2 border-transparent hover:border-red-700 transition-colors duration-300 inline-block">
-                            VISIT
+                            VISIT US
                         </h4>
                         <div className="text-sm space-y-2 text-gray-300">
                             <p>
@@ -54,30 +54,23 @@ const Footer = () => {
                     </div>
 
                     <div className="space-y-4">
-                        <h4 className="text-lg font-semibold border-b-2 border-transparent hover:border-red-700 transition-colors duration-300 inline-block">
-                            CONNECT
-                        </h4>
-                        <div className="flex space-x-4">
-                            <a href="#" aria-label="Facebook" className="text-xl text-white hover:text-red-700 transition-colors">
-                                <FaFacebookF />
-                            </a>
-                            <a href="#" aria-label="Twitter" className="text-xl text-white hover:text-red-700 transition-colors">
-                                <FaTwitter />
-                            </a>
-                            <a href="#" aria-label="Instagram" className="text-xl text-white hover:text-red-700 transition-colors">
-                                <FaInstagram />
-                            </a>
+                        <div className="flex flex-col items-center space-y-4">
+                            <h4 className="text-lg font-semibold border-b-2 border-transparent hover:border-red-700 transition-colors duration-300 inline-block">
+                                CONTACT US
+                            </h4>
+                            <div className="flex space-x-4">
+                                <a href="#" aria-label="Facebook" className="text-xl text-white hover:text-red-700 transition-colors">
+                                    <FaFacebookF />
+                                </a>
+                                <a href="#" aria-label="Twitter" className="text-xl text-white hover:text-red-700 transition-colors">
+                                    <FaTwitter />
+                                </a>
+                                <a href="#" aria-label="Instagram" className="text-xl text-white hover:text-red-700 transition-colors">
+                                    <FaInstagram />
+                                </a>
+                            </div>
                         </div>
                         <form className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
-
-                            <button
-                                type="submit"
-                                className={`py-2 px-3 text-sm font-semibold text-white w-full sm:w-auto
-                            ${redButtonColor} border-2 ${yellowBorderColor} 
-                            hover:bg-red-900 transition-colors duration-300`}
-                            >
-                                SUBSCRIBE
-                            </button>
                         </form>
                     </div>
                 </div>

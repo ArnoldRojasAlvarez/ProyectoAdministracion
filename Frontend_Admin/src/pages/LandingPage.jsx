@@ -26,7 +26,7 @@ const LandingPage = () => {
                             EXPERIENCE
                         </p>
                         <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase leading-tight mb-4 sm:mb-6">
-                            EXPERIENCE PRIMCUT PERFECTION
+                            EXPERIENCE PRIMECUT PERFECTION
                         </h1>
                         <p className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl italic mb-6 sm:mb-8 font-serif">
                             Where Fire Meets Flavor
@@ -90,7 +90,7 @@ const LandingPage = () => {
                                     </div>
                                 </div>
                                 <h3 className="text-white text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wider">
-                                    Artisanal Cooking
+                                    Artesanal Cooking
                                 </h3>
                             </div>
                         </div>
