@@ -8,18 +8,19 @@ const Footer = () => {
     const yellowBorderColor = 'border-[#b8812e]';
 
     return (
-        <footer className={`${bgColor} text-white py-12 border-t border-gray-700 px-4`}>
-            <div className="mx-auto px-4">
+        <footer className={`${bgColor} text-white py-12 border-t border-gray-700 px-3`}>
+            <div className="mx-auto px-3">
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-y-10 md:gap-y-8 md:gap-x-8">
 
                     <div className="md:col-span-2 space-y-3">
                         <div className="flex flex-col items-start">
-                            <div className="h-16 w-32 px-4 py-2 bg-gray-700 text-gray-300 text-sm flex items-center justify-center rounded mb-2">
-                                *insert image*
+                            <div className="h-16 w-32 px-3 py-2 text-gray-300 text-sm flex items-center justify-center rounded mb-2">
+                                <img
+                                    src="https://tilapiasquecoscr.com/wp-content/uploads/2023/03/Steak-House.webp"
+                                    alt="Steak House Logo"
+                                    className="h-24 w-auto object-contain"
+                                />
                             </div>
-                            <p className="text-sm tracking-widest text-gray-400 uppercase">
-                                TRADITION. QUALITY. TASTE
-                            </p>
                         </div>
                     </div>
 
@@ -40,7 +41,7 @@ const Footer = () => {
                         </h4>
                         <div className="text-sm space-y-2 text-gray-300">
                             <p>
-                                <span className="font-medium">Location:</span> 123 Prime Blvd, Steakstown
+                                <span className="font-medium">Location:</span> La Marina
                             </p>
                             <p>
                                 <span className="font-medium">Hours:</span> Mon-Sun, 5 PM - 10 PM
@@ -63,17 +64,11 @@ const Footer = () => {
                                 <FaInstagram />
                             </a>
                         </div>
-                        <p className="text-sm font-medium pt-2">Newsletter Signup</p>
                         <form className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
-                            <input
-                                type="email"
-                                placeholder="Email Address"
-                                className="py-2 px-3 flex-grow text-gray-800 focus:outline-none bg-yellow-100 placeholder-gray-500 min-w-0 w-full"
-                                aria-label="Email for newsletter"
-                            />
+
                             <button
                                 type="submit"
-                                className={`py-2 px-4 text-sm font-semibold text-white w-full sm:w-auto
+                                className={`py-2 px-3 text-sm font-semibold text-white w-full sm:w-auto
                             ${redButtonColor} border-2 ${yellowBorderColor} 
                             hover:bg-red-900 transition-colors duration-300`}
                             >
