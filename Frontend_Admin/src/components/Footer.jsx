@@ -8,21 +8,21 @@ const Footer = () => {
     const yellowBorderColor = 'border-[#b8812e]';
 
     return (
-        <footer className={`${bgColor} text-white py-12 border-t border-gray-700`}>
-            <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+        <footer className={`${bgColor} text-white py-12 border-t border-gray-700 px-4`}>
+            <div className="mx-auto px-4">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-y-10 md:gap-y-8 md:gap-x-8">
+
                     <div className="md:col-span-2 space-y-3">
                         <div className="flex flex-col items-start">
-                            <img
-                                src="path/to/logo.png"
-                                alt="Quecos Steak House Logo"
-                                className="h-16 mb-2"
-                            />
+                            <div className="h-16 w-32 px-4 py-2 bg-gray-700 text-gray-300 text-sm flex items-center justify-center rounded mb-2">
+                                *insert image*
+                            </div>
                             <p className="text-sm tracking-widest text-gray-400 uppercase">
                                 TRADITION. QUALITY. TASTE
                             </p>
                         </div>
                     </div>
+
                     <div>
                         <h4 className="text-lg font-semibold mb-4 border-b-2 border-transparent hover:border-red-700 transition-colors duration-300 inline-block">
                             EXPLORE
@@ -33,6 +33,7 @@ const Footer = () => {
                             <li><Link to="/careers" className="text-sm text-gray-300 hover:text-red-700 transition-colors">Careers</Link></li>
                         </ul>
                     </div>
+
                     <div>
                         <h4 className="text-lg font-semibold mb-4 border-b-2 border-transparent hover:border-red-700 transition-colors duration-300 inline-block">
                             VISIT
@@ -46,6 +47,7 @@ const Footer = () => {
                             </p>
                         </div>
                     </div>
+
                     <div className="space-y-4">
                         <h4 className="text-lg font-semibold border-b-2 border-transparent hover:border-red-700 transition-colors duration-300 inline-block">
                             CONNECT
@@ -62,17 +64,16 @@ const Footer = () => {
                             </a>
                         </div>
                         <p className="text-sm font-medium pt-2">Newsletter Signup</p>
-                        <form className="flex items-stretch">
+                        <form className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
                             <input
                                 type="email"
                                 placeholder="Email Address"
-                                className={`py-2 px-3 flex-grow text-gray-800 focus:outline-none 
-                            bg-yellow-100 placeholder-gray-500`}
+                                className="py-2 px-3 flex-grow text-gray-800 focus:outline-none bg-yellow-100 placeholder-gray-500 min-w-0 w-full"
                                 aria-label="Email for newsletter"
                             />
                             <button
                                 type="submit"
-                                className={`py-2 px-4 text-sm font-semibold text-white 
+                                className={`py-2 px-4 text-sm font-semibold text-white w-full sm:w-auto
                             ${redButtonColor} border-2 ${yellowBorderColor} 
                             hover:bg-red-900 transition-colors duration-300`}
                             >
