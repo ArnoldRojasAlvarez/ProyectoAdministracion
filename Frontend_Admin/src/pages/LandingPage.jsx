@@ -8,7 +8,6 @@ const LandingPage = () => {
         <div className="flex flex-col min-h-screen">
             <Navbar />
 
-            {/* Hero Section */}
             <section
                 className="relative min-h-screen bg-cover bg-center flex items-center"
                 style={{
@@ -16,10 +15,8 @@ const LandingPage = () => {
                     backgroundAttachment: 'fixed'
                 }}
             >
-                {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/50"></div>
 
-                {/* Content Container */}
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-20">
                     <div className="max-w-4xl">
                         <p className="text-white text-sm sm:text-base md:text-lg font-light tracking-[0.3em] uppercase mb-3">
@@ -42,11 +39,9 @@ const LandingPage = () => {
                     </div>
                 </div>
 
-                {/* Bottom Icons Section */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#8b4513]/90 via-[#8b4513]/70 to-transparent py-8 sm:py-12">
                     <div className="container mx-auto px-4">
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
-                            {/* Premium Cuts */}
                             <div className="text-center">
                                 <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-white/90 rounded-full 
                                                 flex items-center justify-center mx-auto mb-3 sm:mb-4 
@@ -62,7 +57,6 @@ const LandingPage = () => {
                                 </h3>
                             </div>
 
-                            {/* Fine Wine Selection */}
                             <div className="text-center">
                                 <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-white/90 rounded-full 
                                                 flex items-center justify-center mx-auto mb-3 sm:mb-4 
@@ -78,7 +72,6 @@ const LandingPage = () => {
                                 </h3>
                             </div>
 
-                            {/* Artisanal Cooking */}
                             <div className="text-center">
                                 <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-white/90 rounded-full 
                                                 flex items-center justify-center mx-auto mb-3 sm:mb-4 
