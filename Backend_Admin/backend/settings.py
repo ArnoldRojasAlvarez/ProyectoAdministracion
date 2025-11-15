@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://elonewflvrnrpsoocavk.supabase.co")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsb25ld2ZsdnJucnBzb29jYXZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwODgxNTQsImV4cCI6MjA2NDY2NDE1NH0.EjSe6z2j8WjQbcW5TsU1-3zLjlhFAmlRJeaX-Fd0AzA")
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
 
 from pathlib import Path
 
