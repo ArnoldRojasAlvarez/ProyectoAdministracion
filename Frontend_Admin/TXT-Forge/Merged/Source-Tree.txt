@@ -1,0 +1,30 @@
+repository/
+│   .gitignore
+│   README.md
+│   TXT-Forge/Merged/Source-1 (11 Files).txt
+│   TXT-Forge/Merged/Source-2 (1 Files).txt
+│   TXT-Forge/Merged/Source-3 (5 Files).txt
+│   TXT-Forge/Merged/Source-4 (3 Files).txt
+│   TXT-Forge/Merged/Source-Tree.txt
+│   eslint.config.js
+│   index.html
+│   package-lock.json
+│   package.json
+│   postcss.config.js
+│   src/App.css
+│   src/App.jsx
+│   src/components/Footer.jsx
+│   src/components/Navbar.jsx
+│   src/components/ui/SharedComponents.jsx
+│   src/hooks/useMenuData.js
+│   src/input.css
+│   src/main.jsx
+│   src/output.css
+│   src/pages/About.jsx
+│   src/pages/Admin.jsx
+│   src/pages/Calendar.jsx
+│   src/pages/Landing.jsx
+│   src/pages/Menu.jsx
+│   src/pages/Shopping.jsx
+│   tailwind.config.js
+│   vite.config.js
