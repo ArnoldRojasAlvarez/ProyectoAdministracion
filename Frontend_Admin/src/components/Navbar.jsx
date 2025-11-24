@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { totalItems } = useCart();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -85,7 +87,7 @@ const Navbar = () => {
                             </svg>
                             {/* Optional: Cart item count badge */}
                             <span className="absolute -top-2 -right-2 bg-[#8b2e22] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
-                                0
+                                {totalItems}
                             </span>
                         </a>
                     </div>

@@ -4,10 +4,12 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { HeroSection, Card, Button } from '../components/ui/SharedComponents';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, CheckCircle, Clock, CreditCard } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 
 const ShoppingPage = () => {
-    const [cartItems, setCartItems] = useState([]);
+    const { cartItems, updateQuantity, removeFromCart: removeItem} = useCart();
     const [isVisible, setIsVisible] = useState({});
+    
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -30,17 +32,6 @@ const ShoppingPage = () => {
 
         return () => observer.disconnect();
     }, []);
-
-    const updateQuantity = (id, newQuantity) => {
-        if (newQuantity < 1) return;
-        setCartItems(cartItems.map(item => 
-            item.id === id ? { ...item, quantity: newQuantity } : item
-        ));
-    };
-
-    const removeItem = (id) => {
-        setCartItems(cartItems.filter(item => item.id !== id));
-    };
 
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const tax = subtotal * 0.08;

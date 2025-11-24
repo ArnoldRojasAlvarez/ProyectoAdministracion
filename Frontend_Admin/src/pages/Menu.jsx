@@ -3,7 +3,8 @@
 import React, { useState } from 'react'; // Ya no necesitamos useEffect aquí
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { useMenuData } from '../hooks/useMenuData'; // <--- 1. IMPORTAMOS EL HOOK
+import { useMenuData } from '../hooks/useMenuData'; 
+import { useCart } from '../context/CartContext';
 
 // Las categorías de los botones se quedan aquí, son parte de la UI
 const categories = [
@@ -20,6 +21,7 @@ const MenuPage = () => {
     // 2. LLAMAMOS AL HOOK Y OBTENEMOS LOS DATOS
     // Toda la lógica de fetch, loading, error y transform está encapsulada aquí
     const { menuItems, loading, error } = useMenuData();
+    const { addToCart } = useCart();
 
     // 3. RENDERIZADO CONDICIONAL (exactamente igual que antes)
     if (loading) {
@@ -136,10 +138,12 @@ const MenuPage = () => {
                                                 {item.description}
                                             </p>
                                             {item.available ? (
-                                                <button className="mt-4 w-full px-4 py-2.5 bg-transparent text-white text-sm font-semibold
+                                                <button 
+                                                    onClick={() => addToCart(item)} 
+                                                    className="mt-4 w-full px-4 py-2.5 bg-transparent text-white text-sm font-semibold
                                                         border-2 border-white/20 rounded hover:border-[#b8812e] hover:text-[#b8812e]
                                                         transition-all duration-300 uppercase tracking-wider opacity-0 
-                                                        group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
+                                                        group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 active:scale-95 cursor-pointer">
                                                     Add to Order
                                                 </button>
                                             ) : (

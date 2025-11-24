@@ -31,6 +31,7 @@ const transformData = (apiData) => {
         if (frontendCategory) {
             // ...crea el nuevo objeto de item con los nombres que el frontend espera
             const newItem = {
+                id: item.idproducto,
                 name: item.nombre,
                 description: item.descripcion,
                 price: `$${item.precio}`,
