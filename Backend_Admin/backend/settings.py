@@ -9,15 +9,19 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+
 import os
-
-SUPABASE_URL = os.getenv('SUPABASE_URL')
-SUPABASE_KEY = os.getenv('SUPABASE_KEY')
-
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Cargar variables de entorno desde el archivo .env ubicado en la raíz
+load_dotenv(BASE_DIR / '.env')
+
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
 
 
 # Quick-start development settings - unsuitable for production
@@ -131,5 +135,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # <--- La URL de tu frontend
+    "http://localhost:5173",
 ]

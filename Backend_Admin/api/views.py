@@ -48,11 +48,50 @@ def crear_producto(request):
             "descripcion": body.get("descripcion"),
             "precio": body.get("precio"),
             "tipo": body.get("tipo"),
+            "disponible": body.get("disponible", True)
         }
 
         result = supabase.table("producto").insert(nuevo_producto).execute()
 
         return JsonResponse(result.data, safe=False, status=201)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=400)
+# ============================
+# ============================
+#  PUT: Cambiar disponibilidad (Toggle)
+# ============================
+@csrf_exempt
+def cambiar_estado(request, id_producto):
+    if request.method != "PUT":
+        return JsonResponse({"error": "Método no permitido"}, status=405)
+
+    try:
+        body = json.loads(request.body)
+        nuevo_estado = body.get("disponible") # Esperamos un true o false
+
+        # Actualizamos en Supabase donde el idproducto coincida
+        data = supabase.table("producto").update({"disponible": nuevo_estado}).eq("idproducto", id_producto).execute()
+        
+        return JsonResponse(data.data, safe=False)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=400)
+# ============================
+# ============================
+#  DELETE: Eliminar un producto
+# ============================
+@csrf_exempt
+def eliminar_producto(request, id_producto):
+    if request.method != "DELETE":
+        return JsonResponse({"error": "Método no permitido"}, status=405)
+
+    try:
+        # Ejecutamos el delete en Supabase filtrando por id
+        result = supabase.table("producto").delete().eq("idproducto", id_producto).execute()
+        
+        # Opcional: Verificar si se borró algo (result.data no estaría vacío)
+        return JsonResponse({"mensaje": "Producto eliminado", "data": result.data}, safe=False)
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=400)

@@ -33,7 +33,8 @@ const transformData = (apiData) => {
             const newItem = {
                 name: item.nombre,
                 description: item.descripcion,
-                price: `$${item.precio}`, 
+                price: `$${item.precio}`,
+                available: item.disponible,
             };
             
             // Agrega el item transformado a su categoría correspondiente

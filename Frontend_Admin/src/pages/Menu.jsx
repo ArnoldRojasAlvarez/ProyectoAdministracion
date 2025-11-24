@@ -135,12 +135,17 @@ const MenuPage = () => {
                                             <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-4">
                                                 {item.description}
                                             </p>
-                                            <button className="mt-4 w-full px-4 py-2.5 bg-transparent text-white text-sm font-semibold
-                                                               border-2 border-white/20 rounded hover:border-[#b8812e] hover:text-[#b8812e]
-                                                               transition-all duration-300 uppercase tracking-wider opacity-0 
-                                                               group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
-                                                Add to Order
-                                            </button>
+                                            {item.available ? (
+                                                <button className="mt-4 w-full px-4 py-2.5 bg-transparent text-white text-sm font-semibold
+                                                        border-2 border-white/20 rounded hover:border-[#b8812e] hover:text-[#b8812e]
+                                                        transition-all duration-300 uppercase tracking-wider opacity-0 
+                                                        group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
+                                                    Add to Order
+                                                </button>
+                                            ) : (
+                                                <div className="mt-4 w-full py-2.5 text-center text-red-500/50 text-xs font-bold uppercase tracking-widest border border-red-900/20 rounded select-none">
+                                                    No Disponible
+                                                </div>)}
                                         </div>
                                     </div>
                                 ))

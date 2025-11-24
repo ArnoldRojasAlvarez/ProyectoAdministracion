@@ -1,5 +1,5 @@
 import { Menu, Calendar, Eye, EyeOff, Edit2, Trash2, Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -10,13 +10,40 @@ const AdminPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [itemForm, setItemForm] = useState({
     nombre: '',
-    tipo: 'Steaks',
+    tipo: 'Fuerte',
     precio: '',
     disponible: true,
     descripcion: ''
   });
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/productos/');
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Importante: La API devuelve "idproducto", pero tu admin usa "id".
+          // Vamos a transformar los datos para que encajen en tu tabla.
+          const productosMapeados = data.map(item => ({
+            id: item.idproducto,       // Mapeamos idproducto a id
+            nombre: item.nombre,
+            tipo: item.tipo,
+            precio: parseFloat(item.precio),
+            descripcion: item.descripcion,
+            disponible: true // Por defecto true, ya que tu API aun no trae este campo bien
+          }));
 
-  const tipos = ['Steaks', 'Appetizers', 'Sides', 'Desserts', 'Beverages'];
+          setMenuItems(productosMapeados);
+        }
+      } catch (error) {
+        console.error("Error cargando productos:", error);
+      }
+    };
+
+    fetchProductos();
+  }, []);
+
+  const tipos = ['Fuerte', 'Entrada', 'Ensalada', 'Postre', 'Bebida'];
 
   const handleItemFormChange = (e) => {
     const { name, value, checked, type } = e.target;
@@ -26,15 +53,56 @@ const AdminPage = () => {
     });
   };
 
-  const handleAddItem = () => {
-    if (itemForm.nombre && itemForm.precio) {
-      const newItem = {
-        id: Date.now(),
-        ...itemForm,
-        precio: parseFloat(itemForm.precio)
-      };
-      setMenuItems([...menuItems, newItem]);
-      resetItemForm();
+  const handleAddItem = async () => {
+    // 1. Validación simple
+    if (!itemForm.nombre || !itemForm.precio) {
+        alert("Por favor completa el nombre y el precio.");
+        return;
+    }
+
+    // 2. Preparamos los datos
+    // Generamos un ID temporal basado en la fecha (si tu backend lo requiere manual)
+    const newId = Date.now().toString().slice(-9);
+    
+    const productoParaEnviar = {
+        idproducto: newId,
+        nombre: itemForm.nombre,
+        descripcion: itemForm.descripcion || "", // Evita enviar null/undefined
+        precio: parseFloat(itemForm.precio),
+        tipo: itemForm.tipo, // Ya está en español, así que lo enviamos directo
+        // disponible: itemForm.disponible (Nota: Tu backend aun no lee esto, pero es bueno dejarlo listo)
+    };
+
+    try {
+        // 3. Petición POST al Backend
+        const response = await fetch('http://127.0.0.1:8000/api/crear_producto/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productoParaEnviar)
+        });
+
+        if (response.ok) {
+            // 4. Éxito: Actualizamos la vista del Admin
+            const newItem = {
+                id: parseInt(newId), // Convertimos a número para que React no se queje en las keys
+                ...itemForm,         // Copiamos los datos del form para visualizarlos
+                precio: parseFloat(itemForm.precio)
+            };
+
+            setMenuItems([...menuItems, newItem]);
+            resetItemForm();
+            // Opcional: alert("Producto creado con éxito");
+        } else {
+            // Manejo de errores del servidor
+            const errorData = await response.json();
+            console.error("Error del servidor:", errorData);
+            alert("No se pudo guardar el producto. Revisa la consola.");
+        }
+    } catch (error) {
+        console.error("Error de conexión:", error);
+        alert("Error al conectar con el servidor. ¿Está corriendo Django?");
     }
   };
 
@@ -51,8 +119,31 @@ const AdminPage = () => {
     }
   };
 
-  const handleDeleteItem = (id) => {
-    setMenuItems(menuItems.filter(item => item.id !== id));
+  const handleDeleteItem = async (id) => {
+    // 1. Preguntar confirmación al usuario para no borrar por error
+    if (!window.confirm("¿Estás seguro de que quieres eliminar este producto?")) {
+      return;
+    }
+
+    try {
+      // 2. Llamar a la API de Django
+      const response = await fetch(`http://127.0.0.1:8000/api/eliminar_producto/${id}/`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        // 3. Si el servidor dice OK, lo borramos de la lista visual
+        setMenuItems(menuItems.filter(item => item.id !== id));
+        alert("Producto eliminado correctamente.");
+      } else {
+        const errorData = await response.json();
+        alert(`No se pudo eliminar: ${errorData.error || 'Error desconocido'}`);
+      }
+
+    } catch (error) {
+      console.error("Error al eliminar:", error);
+      alert("Error de conexión con el servidor.");
+    }
   };
 
   const handleEditItem = (item) => {
@@ -61,12 +152,39 @@ const AdminPage = () => {
     setShowItemForm(true);
   };
 
-  const toggleItemAvailability = (id) => {
-    setMenuItems(
-      menuItems.map(item =>
-        item.id === id ? { ...item, disponible: !item.disponible } : item
-      )
-    );
+  const toggleItemAvailability = async (id) => {
+    // 1. Buscamos el item actual para saber su estado y su ID real
+    const itemToUpdate = menuItems.find(item => item.id === id);
+    if (!itemToUpdate) return;
+
+    const nuevoEstado = !itemToUpdate.disponible; // Invertimos el estado (true -> false)
+
+    try {
+        // 2. Llamamos a la API
+        const response = await fetch(`http://127.0.0.1:8000/api/cambiar_estado/${id}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ disponible: nuevoEstado })
+        });
+
+        if (response.ok) {
+            // 3. Si la API responde bien, actualizamos la vista localmente
+            setMenuItems(
+                menuItems.map(item =>
+                    item.id === id ? { ...item, disponible: nuevoEstado } : item
+                )
+            );
+        } else {
+            console.error("Error al actualizar estado en el servidor");
+            alert("No se pudo cambiar el estado.");
+        }
+
+    } catch (error) {
+        console.error("Error de conexión:", error);
+        alert("Error de conexión con el servidor.");
+    }
   };
 
   const resetItemForm = () => {
@@ -74,7 +192,7 @@ const AdminPage = () => {
     setEditingItem(null);
     setItemForm({
       nombre: '',
-      tipo: 'Steaks',
+      tipo: 'Fuerte',
       precio: '',
       disponible: true,
       descripcion: ''
@@ -414,22 +532,6 @@ const AdminPage = () => {
                               ) : (
                                 <EyeOff className="w-4 h-4" />
                               )}
-                            </button>
-                            
-                            <button
-                              onClick={() => handleEditItem(item)}
-                              className="
-                                flex-1 md:flex-none px-4 py-2 
-                                bg-neutral-800 hover:bg-neutral-700
-                                border border-neutral-700 hover:border-neutral-600
-                                text-neutral-300 hover:text-white
-                                rounded-lg text-sm font-medium
-                                transition-all duration-200
-                                inline-flex items-center justify-center gap-2
-                              "
-                            >
-                              <Edit2 className="w-4 h-4" />
-                              <span className="hidden sm:inline">Edit</span>
                             </button>
                             
                             <button
