@@ -71,7 +71,7 @@ const ShoppingPage = () => {
                                 >
                                     {/* Icon */}
                                     <div className="w-24 h-24 mx-auto mb-8 bg-primary-500/10 border-2 border-primary-500/20 rounded-full flex items-center justify-center">
-                                        <ShoppingBag className="w-12 h-12 text-primary-500" />
+                                        <ShoppingBag className="w-12 h-12" style={{ color: '#b8812e' }} />
                                     </div>
 
                                     {/* Title */}
@@ -139,7 +139,7 @@ const ShoppingPage = () => {
                                             <div className="flex flex-col sm:flex-row gap-6">
                                                 {/* Product Image */}
                                                 <div className="w-full sm:w-32 h-32 bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-lg flex items-center justify-center flex-shrink-0 border border-neutral-700">
-                                                    <ShoppingBag className="w-12 h-12 text-primary-500/30" />
+                                                    <ShoppingBag className="w-12 h-12" style={{ color: '#b8812e' }} />
                                                 </div>
 
                                                 {/* Product Details */}
@@ -191,7 +191,7 @@ const ShoppingPage = () => {
 
                                                         {/* Price */}
                                                         <div className="text-right">
-                                                            <p className="text-primary-500 font-bold text-xl">
+                                                            <p className="font-bold text-xl" style={{ color: '#b8812e' }}>
                                                                 ${(item.price * item.quantity).toFixed(2)}
                                                             </p>
                                                             {item.quantity > 1 && (
@@ -235,7 +235,7 @@ const ShoppingPage = () => {
                                                 <div className="border-t border-neutral-700 pt-4">
                                                     <div className="flex justify-between items-center">
                                                         <span className="text-white text-lg font-bold">Total</span>
-                                                        <span className="text-primary-500 text-2xl font-bold">
+                                                        <span className="text-2xl font-bold" style={{ color: '#b8812e' }}>
                                                             ${total.toFixed(2)}
                                                         </span>
                                                     </div>
@@ -270,15 +270,15 @@ const ShoppingPage = () => {
                                             </h3>
                                             <div className="space-y-4 text-sm">
                                                 <div className="flex items-start gap-3">
-                                                    <CheckCircle className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
+                                                    <CheckCircle className="w-5 h-5" style={{ color: '#b8812e' }} />
                                                     <span className="text-neutral-300">Secure checkout process</span>
                                                 </div>
                                                 <div className="flex items-start gap-3">
-                                                    <Clock className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
+                                                    <Clock className="w-5 h-5" style={{ color: '#b8812e' }} />
                                                     <span className="text-neutral-300">Est. preparation: 45-60 minutes</span>
                                                 </div>
                                                 <div className="flex items-start gap-3">
-                                                    <CreditCard className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
+                                                    <CreditCard className="w-5 h-5" style={{ color: '#b8812e' }} />
                                                     <span className="text-neutral-300">All major cards accepted</span>
                                                 </div>
                                             </div>

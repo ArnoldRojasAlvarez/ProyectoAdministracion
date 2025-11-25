@@ -167,7 +167,8 @@ const CalendarPage = () => {
                                         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
                                             <div
                                                 key={day}
-                                                className="text-center text-xs md:text-sm font-semibold text-primary-500 py-2 uppercase tracking-wider"
+                                                className="text-center text-xs md:text-sm font-semibold py-2 uppercase tracking-wider"
+                                                style={{ color: '#b8812e' }}
                                             >
                                                 {day}
                                             </div>
@@ -197,7 +198,7 @@ const CalendarPage = () => {
                                                 >
                                                     {day && (
                                                         <>
-                                                            <span className="text-sm md:text-base font-semibold">
+                                                            <span className="text-sm md:text-base font-semibold" style={{ color: isSelected ? '#ffffff' : '#b8812e' }}>
                                                                 {day}
                                                             </span>
                                                             {hasEventOnDay && (
@@ -229,11 +230,11 @@ const CalendarPage = () => {
                                     </h3>
                                     <div className="space-y-3">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-4 h-4 rounded bg-primary-500/20 border-2 border-primary-500/30" />
+                                            <div className="w-4 h-4 rounded border-2" style={{ backgroundColor: 'rgba(184, 129, 46, 0.2)', borderColor: 'rgba(184, 129, 46, 0.3)' }} />
                                             <span className="text-sm text-neutral-300">Special Event</span>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <div className="w-4 h-4 rounded bg-primary-500 border-2 border-primary-500" />
+                                            <div className="w-4 h-4 rounded border-2" style={{ backgroundColor: '#b8812e', borderColor: '#b8812e' }} />
                                             <span className="text-sm text-neutral-300">Selected Date</span>
                                         </div>
                                     </div>
@@ -319,7 +320,7 @@ const CalendarPage = () => {
                                                             <CalendarIcon className="w-6 h-6 text-primary-500" />
                                                         </div>
                                                         <div className="flex-1 min-w-0">
-                                                            <p className="text-primary-500 text-xs font-semibold mb-1 uppercase tracking-wider">
+                                                            <p className="text-xs font-semibold mb-1 uppercase tracking-wider" style={{ color: '#b8812e' }}>
                                                                 {currentMonth} {day}
                                                             </p>
                                                             <h4 className="text-white font-semibold text-sm mb-1 group-hover:text-primary-500 transition-colors">

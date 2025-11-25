@@ -64,7 +64,11 @@ export const useMenuData = () => {
                 }
 
                 const data = await response.json();
+                console.log('Raw API Data:', data);
+                console.log('Sample item tipo:', data[0]?.tipo);
+                
                 const transformed = transformData(data);
+                console.log('Transformed Data:', transformed);
                 
                 setMenuItems(transformed);
 

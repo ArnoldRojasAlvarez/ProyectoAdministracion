@@ -1,35 +1,80 @@
-// src/pages/Menu.jsx (o donde lo tengas)
-
-import React, { useState } from 'react'; // Ya no necesitamos useEffect aquí
+// src/pages/Menu.jsx
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { useMenuData } from '../hooks/useMenuData'; 
+import { useMenuData } from '../hooks/useMenuData';
 import { useCart } from '../context/CartContext';
+import {
+    HeroSection,
+    Card,
+    Badge,
+    Button,
+} from '../components/ui/SharedComponents';
+import { ShoppingCart, Plus, Loader2 } from 'lucide-react';
 
-// Las categorías de los botones se quedan aquí, son parte de la UI
 const categories = [
     { id: 'steaks', name: 'Cuts' },
     { id: 'appetizers', name: 'Starters' },
     { id: 'sides', name: 'Sides' },
     { id: 'desserts', name: 'Desserts' },
-    { id: 'drinks', name: 'Beverages' }
+    { id: 'drinks', name: 'Beverages' },
 ];
 
 const MenuPage = () => {
     const [activeCategory, setActiveCategory] = useState('steaks');
-
-    // 2. LLAMAMOS AL HOOK Y OBTENEMOS LOS DATOS
-    // Toda la lógica de fetch, loading, error y transform está encapsulada aquí
+    const [isVisible, setIsVisible] = useState({});
     const { menuItems, loading, error } = useMenuData();
     const { addToCart } = useCart();
 
-    // 3. RENDERIZADO CONDICIONAL (exactamente igual que antes)
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible((prev) => ({
+                            ...prev,
+                            [entry.target.id]: true,
+                        }));
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        // Small delay to ensure elements are in DOM
+        const timeoutId = setTimeout(() => {
+            document.querySelectorAll('.observe').forEach((el) => {
+                observer.observe(el);
+            });
+        }, 100);
+
+        return () => {
+            clearTimeout(timeoutId);
+            observer.disconnect();
+        };
+    }, [menuItems]); // Re-run when menuItems changes
+
+    // Debug: Log menuItems to see what's being received
+    useEffect(() => {
+        console.log('Menu Items:', menuItems);
+        console.log('Active Category:', activeCategory);
+        console.log(
+            'Items in Active Category:',
+            menuItems[activeCategory]
+        );
+    }, [menuItems, activeCategory]);
+
     if (loading) {
         return (
-            <div className="flex flex-col min-h-screen bg-[#0a0a0a] items-center justify-center pt-20">
+            <div className="flex flex-col min-h-screen bg-neutral-950">
                 <Navbar />
-                <main className="flex-grow flex items-center justify-center">
-                    <h2 className="text-white text-3xl font-light">Cargando menú...</h2>
+                <main className="flex-grow flex items-center justify-center pt-20">
+                    <div className="text-center">
+                        <Loader2 className="w-12 h-12 text-primary-500 animate-spin mx-auto mb-4" />
+                        <h2 className="text-white text-2xl font-light">
+                            Loading menu...
+                        </h2>
+                    </div>
                 </main>
                 <Footer />
             </div>
@@ -38,158 +83,180 @@ const MenuPage = () => {
 
     if (error) {
         return (
-            <div className="flex flex-col min-h-screen bg-[#0a0a0a] items-center justify-center pt-20">
+            <div className="flex flex-col min-h-screen bg-neutral-950">
                 <Navbar />
-                <main className="flex-grow flex flex-col items-center justify-center text-center px-4">
-                    <h2 className="text-red-500 text-3xl font-bold">Error al cargar el menú</h2>
-                    <p className="text-gray-400 mt-2">({error})</p>
-                    <p className="text-gray-500 mt-4">
-                        Asegúrate de que la API de Django esté corriendo en: <br />
-                        <code className="text-yellow-500">http://127.0.0.1:8000</code>
-                    </p>
+                <main className="flex-grow flex flex-col items-center justify-center text-center px-4 pt-20">
+                    <div className="max-w-2xl">
+                        <Card className="p-8 md:p-12">
+                            <div className="w-16 h-16 bg-error/10 border-2 border-error/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg
+                                    className="w-8 h-8 text-error"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </div>
+                            <h2 className="text-error text-3xl font-bold mb-4">
+                                Error Loading Menu
+                            </h2>
+                            <p className="text-neutral-400 mb-6">{error}</p>
+                            <p className="text-neutral-500 text-sm">
+                                Ensure the Django API is running at:{' '}
+                                <code className="text-primary-500 bg-neutral-800 px-2 py-1 rounded">
+                                    http://127.0.0.1:8000
+                                </code>
+                            </p>
+                        </Card>
+                    </div>
                 </main>
                 <Footer />
             </div>
         );
     }
 
-    // 4. RENDERIZADO DE LA PÁGINA (exactamente igual que antes)
     return (
-        <div className="flex flex-col min-h-screen bg-[#0a0a0a]">
+        <div className="flex flex-col min-h-screen bg-neutral-950">
             <Navbar />
 
-            <main className="flex-grow pt-20 md:pt-24">
+            <main className="flex-grow">
                 {/* Hero Section */}
-                <section className="relative bg-gradient-to-b from-[#1a1410] to-[#0a0a0a] py-16 md:py-24">
-                    <div className="absolute inset-0 opacity-5"
-                        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.4"/%3E%3C/svg%3E")' }}>
-                    </div>
-                    <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <div className="w-20 h-1 bg-[#b8812e] mx-auto mb-6" />
-                        <p className="text-[#b8812e] text-sm md:text-base font-light tracking-[0.4em] uppercase mb-4">
-                            CULINARY EXCELLENCE
-                        </p>
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold uppercase mb-6 tracking-wider text-white"
-                            style={{ fontFamily: 'Georgia, serif' }}>
-                            Our Menu
-                        </h1>
-                        <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto">
-                        </p>
-                    </div>
-                </section>
+                <HeroSection
+                    backgroundImage="https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&q=80"
+                    badge="Culinary Excellence"
+                    title="Our Menu"
+                    subtitle="Discover our carefully curated selection of premium dishes"
+                />
 
-                {/* Category Filter */}
-                <section className="sticky top-20 z-40 bg-black/95 backdrop-blur-md border-b border-white/10 py-4">
+                {/* Category Filter - Sticky */}
+                <section className="sticky top-20 z-40 bg-neutral-950/95 backdrop-blur-xl border-b border-neutral-800">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex overflow-x-auto space-x-2 md:space-x-4 scrollbar-hide">
-                            {categories.map((category) => (
-                                <button
-                                    key={category.id}
-                                    onClick={() => setActiveCategory(category.id)}
-                                    className={`
-                                        flex items-center space-x-2 px-6 py-3 rounded-lg whitespace-nowrap
-                                        transition-all duration-300 font-semibold text-sm uppercase tracking-wider
-                                        ${activeCategory === category.id
-                                            ? 'bg-[#8b2e22] text-white border-2 border-[#b8812e]'
-                                            : 'bg-white/5 text-gray-400 border-2 border-transparent hover:border-[#b8812e] hover:text-white'
-                                        }
-                                    `}
-                                >
-                                    <span className="text-xl">{category.icon}</span>
-                                    <span>{category.name}</span>
-                                </button>
-                            ))}
+                        <div className="max-w-7xl mx-auto">
+                            <div className="flex overflow-x-auto gap-2 py-4 scrollbar-hide">
+                                {categories.map((category) => (
+                                    <button
+                                        key={category.id}
+                                        onClick={() => setActiveCategory(category.id)}
+                                        className={`
+                      flex items-center gap-2 px-6 py-3 
+                      rounded-lg whitespace-nowrap
+                      font-medium text-sm tracking-wider uppercase
+                      transition-all duration-200
+                      ${activeCategory === category.id
+                                                ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25'
+                                                : 'bg-transparent text-neutral-400 hover:text-white hover:bg-neutral-800 border border-neutral-700 hover:border-neutral-600'
+                                            }
+                    `}
+                                    >
+                                        {category.name}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 {/* Menu Items */}
-                <section className="relative py-12 md:py-20 bg-[#0a0a0a]">
+                <section className="relative py-16 md:py-24 lg:py-32 bg-gradient-to-b from-neutral-950 to-neutral-900">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-
-                            {menuItems[activeCategory] && menuItems[activeCategory].length > 0 ? (
+                        <div
+                            id="menu-items"
+                            className="observe grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
+                        >
+                            {menuItems[activeCategory] &&
+                                menuItems[activeCategory].length > 0 ? (
                                 menuItems[activeCategory].map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className="group relative bg-gradient-to-b from-white/5 to-transparent 
-                                                   border border-white/10 rounded-lg p-6 md:p-8
-                                                   hover:border-[#b8812e]/50 transition-all duration-500
-                                                   hover:transform hover:-translate-y-1"
+                                    <Card
+                                        key={item.id}
+                                        hover
+                                        className={`
+                                        p-6 md:p-8 transition-all duration-700
+                                        ${isVisible['menu-items']
+                                                ? 'opacity-100 translate-y-0'
+                                                : 'opacity-100 translate-y-0'
+                                            }
+                    `}
                                         style={{
-                                            animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`
+                                            animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`,
                                         }}
                                     >
-                                        <div className="absolute inset-0 bg-gradient-to-br from-[#b8812e]/0 to-[#8b2e22]/0 
-                                                        group-hover:from-[#b8812e]/5 group-hover:to-[#8b2e22]/5 
-                                                        rounded-lg transition-all duration-500 pointer-events-none" />
-                                        <div className="relative">
-                                            <div className="flex justify-between items-start mb-3">
-                                                <div className="flex-1">
-                                                    <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-[#b8812e] transition-colors">
-                                                        {item.name}
-                                                    </h3>
-                                                </div>
-                                                <div className="text-2xl font-bold text-[#b8812e] ml-4">
-                                                    {item.price}
-                                                </div>
+                                        {/* Item Header */}
+                                        <div className="flex justify-between items-start gap-4 mb-4">
+                                            <div className="flex-1 text-left" style={{ textAlign: 'left' }}>
+                                                <h3
+                                                    className="text-xl md:text-2xl font-bold text-white mb-2 tracking-tight"
+                                                    style={{ fontFamily: 'Georgia, serif', textAlign: 'left' }}
+                                                >
+                                                    {item.name}
+                                                </h3>
                                             </div>
-                                            <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-4">
-                                                {item.description}
-                                            </p>
-                                            {item.available ? (
-                                                <button 
-                                                    onClick={() => addToCart(item)} 
-                                                    className="mt-4 w-full px-4 py-2.5 bg-transparent text-white text-sm font-semibold
-                                                        border-2 border-white/20 rounded hover:border-[#b8812e] hover:text-[#b8812e]
-                                                        transition-all duration-300 uppercase tracking-wider opacity-0 
-                                                        group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 active:scale-95 cursor-pointer">
-                                                    Add to Order
-                                                </button>
-                                            ) : (
-                                                <div className="mt-4 w-full py-2.5 text-center text-red-500/50 text-xs font-bold uppercase tracking-widest border border-red-900/20 rounded select-none">
-                                                    No Disponible
-                                                </div>)}
+                                            <div className="text-2xl font-bold" style={{ color: '#b8812e' }}>
+                                                {item.price}
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        {/* Description */}
+                                        <p className="text-neutral-400 text-sm md:text-base leading-relaxed mb-6 text-left" style={{ textAlign: 'left' }}>
+                                            {item.description}
+                                        </p>
+
+                                        {/* Footer with Badge and Button */}
+                                        <div className="flex items-center justify-between gap-4">
+                                            {/* Availability Badge */}
+                                            <Badge
+                                                variant={item.available ? 'success' : 'error'}
+                                            >
+                                                {item.available ? 'Available' : 'Unavailable'}
+                                            </Badge>
+
+                                            {/* Add to Cart Button */}
+                                            {item.available && (
+                                                <Button
+                                                    variant="primary"
+                                                    size="sm"
+                                                    onClick={() => addToCart(item)}
+                                                    className="group"
+                                                >
+                                                    <ShoppingCart className="w-4 h-4" />
+                                                    <span className="hidden sm:inline">
+                                                        Add to Cart
+                                                    </span>
+                                                    <Plus className="w-4 h-4 sm:hidden" />
+                                                </Button>
+                                            )}
+                                        </div>
+                                    </Card>
                                 ))
                             ) : (
-                                <div className="md:col-span-2 text-center py-12">
-                                    <p className="text-gray-400 text-lg">
-                                        No hay productos disponibles en esta categoría.
-                                    </p>
+                                <div className="md:col-span-2">
+                                    <Card className="p-12 text-center">
+                                        <div className="w-16 h-16 bg-neutral-800 border-2 border-neutral-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <svg
+                                                className="w-8 h-8 text-neutral-600"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                            </svg>
+                                        </div>
+                                        <h3 className="text-xl font-semibold text-white mb-2">
+                                            No Items Available
+                                        </h3>
+                                        <p className="text-neutral-400">
+                                            There are currently no items in this category.
+                                        </p>
+                                    </Card>
                                 </div>
                             )}
                         </div>
-                    </div>
-                </section>
-
-                {/* Call to Action */}
-                <section className="relative bg-gradient-to-r from-[#8b2e22] via-[#a03628] to-[#8b2e22] py-16 md:py-20">
-                    <div className="absolute inset-0 opacity-10"
-                        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.4"/%3E%3C/svg%3E")' }}>
-                    </div>
-                    <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
-                            style={{ fontFamily: 'Georgia, serif' }}>
-                            Ready to Experience Excellence?
-                        </h2>
-                        <p className="text-gray-200 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-                            Reserve your table and let us take you on a culinary journey
-                        </p>
-                        <a
-                            href="/reservations"
-                            className="inline-flex items-center px-8 py-4 bg-white text-[#8b2e22] text-sm font-bold
-                                       hover:bg-[#b8812e] hover:text-white transition-all duration-300 
-                                       uppercase tracking-wider group"
-                        >
-                            Make a Reservation
-                            <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
-                                fill="none" strokeLinecap="round" strokeLinejoin="round"
-                                strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                                <path d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </a>
                     </div>
                 </section>
             </main>
@@ -197,24 +264,25 @@ const MenuPage = () => {
             <Footer />
 
             <style>{`
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(30px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-            `}</style>
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
         </div>
     );
 };

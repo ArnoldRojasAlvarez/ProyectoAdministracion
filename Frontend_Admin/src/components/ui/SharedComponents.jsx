@@ -198,8 +198,15 @@ export const Badge = ({ children, variant = 'default', className = '' }) => {
     const variants = {
         default: 'bg-neutral-800 text-neutral-300 border-neutral-700',
         primary: 'bg-primary-500/10 text-primary-500 border-primary-500/20',
-        success: 'bg-success/10 text-success border-success/20',
-        error: 'bg-error/10 text-error border-error/20',
+        success: 'bg-success/10 border-success/20',
+        error: 'bg-error/10 border-error/20',
+    };
+
+    const colors = {
+        default: undefined,
+        primary: '#b8812e',
+        success: '#10b981',
+        error: '#ef4444',
     };
 
     return (
@@ -211,6 +218,7 @@ export const Badge = ({ children, variant = 'default', className = '' }) => {
       ${variants[variant]}
       ${className}
     `}
+            style={{ color: colors[variant] }}
         >
             {children}
         </span>

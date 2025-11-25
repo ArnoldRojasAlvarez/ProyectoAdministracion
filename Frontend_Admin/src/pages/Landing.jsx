@@ -92,13 +92,13 @@ const LandingPage = () => {
                             <a
                                 href="/menu"
                                 className="
-                  group inline-flex items-center justify-center gap-3 px-8 py-4
-                  bg-primary-500 hover:bg-primary-600
-                  text-white font-medium text-base
-                  rounded-lg shadow-lg shadow-primary-500/25
-                  transition-all duration-200
-                  focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-950
-                  active:scale-[0.98]
+                group inline-flex items-center justify-center gap-3 px-8 py-4
+                bg-primary-500 hover:bg-primary-600
+                text-white font-medium text-base
+                rounded-lg shadow-lg shadow-primary-500/25
+                transition-all duration-200
+                focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-950
+                active:scale-[0.98]
                 "
                             >
                                 Explore Menu
@@ -108,12 +108,12 @@ const LandingPage = () => {
                             <a
                                 href="/calendar"
                                 className="
-                  group inline-flex items-center justify-center gap-3 px-8 py-4
-                  bg-transparent hover:bg-neutral-800
-                  text-neutral-300 hover:text-white font-medium text-base
-                  rounded-lg border border-neutral-700 hover:border-neutral-600
-                  transition-all duration-200
-                  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 focus:ring-offset-neutral-950
+                group inline-flex items-center justify-center gap-3 px-8 py-4
+                bg-transparent hover:bg-neutral-800
+                text-neutral-300 hover:text-white font-medium text-base
+                rounded-lg border border-neutral-700 hover:border-neutral-600
+                tansition-all duration-200
+                focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 focus:ring-offset-neutral-950
                 "
                             >
                                 View Events
@@ -147,14 +147,14 @@ const LandingPage = () => {
                     hover:border-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/10
                     transition-all duration-300
                     hover:-translate-y-2
-                  "
+                    "
                                 >
                                     {/* Glow Effect on Hover */}
                                     <div className="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/5 group-hover:to-primary-500/0 rounded-2xl transition-all duration-300 pointer-events-none" />
 
                                     {/* Icon */}
-                                    <div className="relative w-16 h-16 mx-auto mb-6 bg-primary-500/10 border border-primary-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-primary-500/20 transition-all duration-300">
-                                        <Icon className="w-8 h-8 text-primary-500" />
+                                    <div className="relative w-16 h-16 mx-auto mb-6 bg-primary-500/10 border border-neutral-400 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-primary-500/20 transition-all duration-300">
+                                        <Icon className="w-8 h-8" style={{ color: '#b8812e' }} />
                                     </div>
 
                                     {/* Content */}
@@ -176,15 +176,15 @@ const LandingPage = () => {
 
             <style>{`
         @keyframes scroll {
-          0%, 100% { transform: translateY(0); opacity: 0; }
-          50% { opacity: 1; }
-          100% { transform: translateY(20px); opacity: 0; }
+        0%, 100% { transform: translateY(0); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(20px); opacity: 0; }
         }
 
         .animate-scroll {
-          animation: scroll 2s ease-in-out infinite;
+        animation: scroll 2s ease-in-out infinite;
         }
-      `}</style>
+    `}</style>
         </div>
     );
 };
