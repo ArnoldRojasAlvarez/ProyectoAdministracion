@@ -71,6 +71,30 @@ const Navbar = () => {
                             </a>
                         ))}
                         
+                        {/* User Profile / Login */}
+                        {user ? (
+                            <div className="flex items-center gap-2">
+                                <span className="text-white text-sm tracking-wider font-light">
+                                    {user.name}
+                                </span>
+                                <button
+                                    onClick={logout}
+                                    className="p-1.5 text-neutral-400 hover:text-[#b8812e] transition-colors"
+                                    title="Logout"
+                                >
+                                    <LogOut className="w-4 h-4" />
+                                </button>
+                            </div>
+                        ) : (
+                            <a
+                                href="/login"
+                                className="relative text-white text-sm tracking-wider font-light group"
+                            >
+                                LOGIN
+                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#b8812e] transition-all duration-300 group-hover:w-full" />
+                            </a>
+                        )}
+                        
                         {/* Shopping Cart Icon */}
                         <a
                             href="/Shopping"
@@ -93,33 +117,6 @@ const Navbar = () => {
                                 {totalItems}
                             </span>
                         </a>
-                        
-                        {/* User Profile / Login */}
-                        {user ? (
-                            <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
-                                    <User className="w-4 h-4 text-primary-500" style={{ color: '#b8812e' }} />
-                                    <span className="text-sm text-white">{user.name}</span>
-                                </div>
-                                <button
-                                    onClick={logout}
-                                    className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
-                                    title="Logout"
-                                >
-                                    <LogOut className="w-5 h-5" />
-                                </button>
-                            </div>
-                        ) : (
-                            <a
-                                href="/login"
-                                className="px-6 py-2 bg-primary-500 hover:bg-primary-600 text-white font-medium text-sm rounded-lg transition-colors"
-                                style={{ backgroundColor: '#b8812e' }}
-                                onMouseEnter={(e) => e.target.style.backgroundColor = '#a0721f'}
-                                onMouseLeave={(e) => e.target.style.backgroundColor = '#b8812e'}
-                            >
-                                Login
-                            </a>
-                        )}
                     </div>
 
                     {/* Mobile Menu Button & Cart */}
@@ -195,29 +192,27 @@ const Navbar = () => {
                         <div className="pt-4 border-t border-white/10">
                             {user ? (
                                 <div className="space-y-3">
-                                    <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
-                                        <User className="w-4 h-4" style={{ color: '#b8812e' }} />
-                                        <span className="text-sm text-white">{user.name}</span>
+                                    <div className="flex items-center justify-between px-4 py-2">
+                                        <span className="text-white text-sm tracking-wider font-light">{user.name}</span>
+                                        <button
+                                            onClick={() => {
+                                                logout();
+                                                setIsMobileMenuOpen(false);
+                                            }}
+                                            className="p-2 text-neutral-400 hover:text-[#b8812e] transition-colors"
+                                            title="Logout"
+                                        >
+                                            <LogOut className="w-4 h-4" />
+                                        </button>
                                     </div>
-                                    <button
-                                        onClick={() => {
-                                            logout();
-                                            setIsMobileMenuOpen(false);
-                                        }}
-                                        className="w-full flex items-center justify-center gap-2 px-4 py-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
-                                    >
-                                        <LogOut className="w-4 h-4" />
-                                        <span className="text-sm">Logout</span>
-                                    </button>
                                 </div>
                             ) : (
                                 <a
                                     href="/login"
-                                    className="block text-center px-6 py-2 text-white font-medium text-sm rounded-lg transition-colors"
-                                    style={{ backgroundColor: '#b8812e' }}
+                                    className="block text-white text-sm tracking-wider font-light hover:text-[#b8812e] transition-colors py-2"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
-                                    Login
+                                    LOGIN
                                 </a>
                             )}
                         </div>
