@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { LogOut, User } from 'lucide-react';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { totalItems } = useCart();
+    const { user, logout } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -20,7 +23,7 @@ const Navbar = () => {
         { name: "MENU", href: "/menu" },
         { name: "ABOUT", href: "/about" },
         { name: "CALENDAR", href: "/calendar" },
-        { name: "ADMIN", href: "/admin" },  
+        ...(user?.role === 'admin' ? [{ name: "ADMIN", href: "/admin" }] : []),
     ];
 
     return (
@@ -90,6 +93,33 @@ const Navbar = () => {
                                 {totalItems}
                             </span>
                         </a>
+                        
+                        {/* User Profile / Login */}
+                        {user ? (
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
+                                    <User className="w-4 h-4 text-primary-500" style={{ color: '#b8812e' }} />
+                                    <span className="text-sm text-white">{user.name}</span>
+                                </div>
+                                <button
+                                    onClick={logout}
+                                    className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
+                                    title="Logout"
+                                >
+                                    <LogOut className="w-5 h-5" />
+                                </button>
+                            </div>
+                        ) : (
+                            <a
+                                href="/login"
+                                className="px-6 py-2 bg-primary-500 hover:bg-primary-600 text-white font-medium text-sm rounded-lg transition-colors"
+                                style={{ backgroundColor: '#b8812e' }}
+                                onMouseEnter={(e) => e.target.style.backgroundColor = '#a0721f'}
+                                onMouseLeave={(e) => e.target.style.backgroundColor = '#b8812e'}
+                            >
+                                Login
+                            </a>
+                        )}
                     </div>
 
                     {/* Mobile Menu Button & Cart */}
@@ -112,7 +142,7 @@ const Navbar = () => {
                                 <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             <span className="absolute -top-2 -right-2 bg-[#8b2e22] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
-                                0
+                                {totalItems}
                             </span>
                         </a>
 
@@ -160,6 +190,37 @@ const Navbar = () => {
                                 {link.name}
                             </a>
                         ))}
+                        
+                        {/* Mobile Auth Section */}
+                        <div className="pt-4 border-t border-white/10">
+                            {user ? (
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
+                                        <User className="w-4 h-4" style={{ color: '#b8812e' }} />
+                                        <span className="text-sm text-white">{user.name}</span>
+                                    </div>
+                                    <button
+                                        onClick={() => {
+                                            logout();
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full flex items-center justify-center gap-2 px-4 py-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
+                                    >
+                                        <LogOut className="w-4 h-4" />
+                                        <span className="text-sm">Logout</span>
+                                    </button>
+                                </div>
+                            ) : (
+                                <a
+                                    href="/login"
+                                    className="block text-center px-6 py-2 text-white font-medium text-sm rounded-lg transition-colors"
+                                    style={{ backgroundColor: '#b8812e' }}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    Login
+                                </a>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

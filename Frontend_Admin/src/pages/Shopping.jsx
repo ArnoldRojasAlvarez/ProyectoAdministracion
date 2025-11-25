@@ -7,9 +7,9 @@ import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, CheckCircle, Clock, Credi
 import { useCart } from '../context/CartContext';
 
 const ShoppingPage = () => {
-    const { cartItems, updateQuantity, removeFromCart: removeItem} = useCart();
+    const { cartItems, updateQuantity, removeFromCart: removeItem } = useCart();
     const [isVisible, setIsVisible] = useState({});
-    
+
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -46,7 +46,7 @@ const ShoppingPage = () => {
                 <HeroSection
                     badge="Your Order"
                     title="Shopping Cart"
-                    subtitle={cartItems.length > 0 
+                    subtitle={cartItems.length > 0
                         ? `${cartItems.length} ${cartItems.length === 1 ? 'item' : 'items'} in your cart`
                         : "Your cart is waiting to be filled with delicious selections"
                     }
@@ -55,7 +55,7 @@ const ShoppingPage = () => {
                 {/* Main Content */}
                 <section className="relative py-16 md:py-24 lg:py-32 bg-gradient-to-b from-neutral-950 to-neutral-900">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                        
+
                         {cartItems.length === 0 ? (
                             /* Empty Cart State */
                             <div
@@ -63,11 +63,10 @@ const ShoppingPage = () => {
                                 className="observe max-w-2xl mx-auto text-center"
                             >
                                 <Card
-                                    className={`p-12 md:p-16 transition-all duration-1000 ${
-                                        isVisible['empty-cart']
+                                    className={`p-12 md:p-16 transition-all duration-1000 ${isVisible['empty-cart']
                                             ? 'opacity-100 translate-y-0'
                                             : 'opacity-0 translate-y-10'
-                                    }`}
+                                        }`}
                                 >
                                     {/* Icon */}
                                     <div className="w-24 h-24 mx-auto mb-8 bg-primary-500/10 border-2 border-primary-500/20 rounded-full flex items-center justify-center">
@@ -107,11 +106,10 @@ const ShoppingPage = () => {
                             >
                                 {/* Cart Items List */}
                                 <div
-                                    className={`lg:col-span-2 space-y-4 transition-all duration-1000 ${
-                                        isVisible['cart-content']
+                                    className={`lg:col-span-2 space-y-4 transition-all duration-1000 ${isVisible['cart-content']
                                             ? 'opacity-100 translate-x-0'
                                             : 'opacity-0 -translate-x-10'
-                                    }`}
+                                        }`}
                                 >
                                     {/* Section Header */}
                                     <div className="flex items-center justify-between mb-6">
@@ -209,11 +207,10 @@ const ShoppingPage = () => {
 
                                 {/* Order Summary Sidebar */}
                                 <div
-                                    className={`transition-all duration-1000 ${
-                                        isVisible['cart-content']
+                                    className={`transition-all duration-1000 ${isVisible['cart-content']
                                             ? 'opacity-100 translate-x-0'
                                             : 'opacity-0 translate-x-10'
-                                    }`}
+                                        }`}
                                 >
                                     <div className="sticky top-28 space-y-6">
                                         {/* Summary Card */}
@@ -247,6 +244,7 @@ const ShoppingPage = () => {
                                                 variant="primary"
                                                 size="lg"
                                                 className="w-full mb-4 justify-center"
+                                                onClick={() => window.location.href = '/checkout'}
                                             >
                                                 Proceed to Checkout
                                                 <ArrowRight className="w-5 h-5" />
