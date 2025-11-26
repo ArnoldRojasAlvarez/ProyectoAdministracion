@@ -76,6 +76,7 @@
     --blur-md: 12px;
     --blur-lg: 16px;
     --blur-xl: 24px;
+    --aspect-video: 16 / 9;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
@@ -419,6 +420,9 @@
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
+  .aspect-video {
+    aspect-ratio: var(--aspect-video);
+  }
   .h-0\.5 {
     height: calc(var(--spacing) * 0.5);
   }
@@ -520,6 +524,9 @@
   }
   .w-24 {
     width: calc(var(--spacing) * 24);
+  }
+  .w-32 {
+    width: calc(var(--spacing) * 32);
   }
   .w-full {
     width: 100%;
@@ -1425,6 +1432,16 @@
       }
     }
   }
+  .hover\:scale-105 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-scale-x: 105%;
+        --tw-scale-y: 105%;
+        --tw-scale-z: 105%;
+        scale: var(--tw-scale-x) var(--tw-scale-y);
+      }
+    }
+  }
   .hover\:border-neutral-600 {
     &:hover {
       @media (hover: hover) {
@@ -1553,6 +1570,11 @@
   .disabled\:cursor-not-allowed {
     &:disabled {
       cursor: not-allowed;
+    }
+  }
+  .disabled\:bg-neutral-700 {
+    &:disabled {
+      background-color: var(--color-neutral-700);
     }
   }
   .disabled\:opacity-50 {

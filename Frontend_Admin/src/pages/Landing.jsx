@@ -16,18 +16,18 @@ const LandingPage = () => {
     const features = [
         {
             icon: Award,
-            title: 'Premium Quality',
-            description: 'Finest cuts sourced from trusted suppliers',
+            title: 'Calidad Premium',
+            description: 'Los mejores cortes de proveedores de confianza',
         },
         {
             icon: Flame,
-            title: 'Expert Preparation',
-            description: 'Prepared by experienced culinary professionals',
+            title: 'Preparación Experta',
+            description: 'Elaborado por profesionales culinarios experimentados',
         },
         {
             icon: Users,
-            title: 'Exceptional Service',
-            description: 'Dedicated to your complete satisfaction',
+            title: 'Servicio Excepcional',
+            description: 'Dedicados a tu completa satisfacción',
         },
     ];
 
@@ -67,7 +67,7 @@ const LandingPage = () => {
                         {/* Badge */}
                         <span className="inline-flex items-center gap-2 px-3 py-1 mb-6 text-xs font-semibold tracking-widest uppercase text-primary-500 bg-primary-500/10 border border-primary-500/20 rounded-full backdrop-blur-sm">
                             <span className="w-1.5 h-1.5 bg-primary-500 rounded-full animate-pulse" />
-                            Authentic Experience
+                            Experiencia Auténtica
                         </span>
 
                         {/* Main Heading */}
@@ -75,16 +75,16 @@ const LandingPage = () => {
                             className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-none mb-8 tracking-tight drop-shadow-2xl"
                             style={{ fontFamily: 'Georgia, serif' }}
                         >
-                            Where Fire Meets
+                            Donde el Fuego
                             <span className="block text-primary-500 mt-2">
-                                Perfection
+                                Alcanza la Perfección
                             </span>
                         </h1>
 
                         {/* Subheading */}
                         <p className="text-neutral-300 text-xl sm:text-2xl mb-10 font-normal max-w-2xl leading-relaxed drop-shadow-lg">
-                            Experience the finest cuts, expertly prepared and served with
-                            passion
+                            Descubre los mejores cortes, preparados con maestría y
+                            servidos con pasión
                         </p>
 
                         {/* CTA Buttons */}
@@ -101,7 +101,7 @@ const LandingPage = () => {
                 active:scale-[0.98]
                 "
                             >
-                                Explore Menu
+                                Explorar Menú
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </a>
 
@@ -116,7 +116,7 @@ const LandingPage = () => {
                 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 focus:ring-offset-neutral-950
                 "
                             >
-                                View Events
+                                Ver Eventos
                             </a>
                         </div>
                     </div>

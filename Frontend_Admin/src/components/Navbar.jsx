@@ -19,10 +19,10 @@ const Navbar = () => {
     }, []);
 
     const navLinks = [
-        { name: "HOME", href: "/" },
-        { name: "MENU", href: "/menu" },
-        { name: "ABOUT", href: "/about" },
-        { name: "CALENDAR", href: "/calendar" },
+        { name: "INICIO", href: "/" },
+        { name: "MENÚ", href: "/menu" },
+        { name: "NOSOTROS", href: "/about" },
+        { name: "CALENDARIO", href: "/calendar" },
         ...(user?.role === 'admin' ? [{ name: "ADMIN", href: "/admin" }] : []),
     ];
 
@@ -80,7 +80,7 @@ const Navbar = () => {
                                 <button
                                     onClick={logout}
                                     className="p-1.5 text-neutral-400 hover:text-[#b8812e] transition-colors"
-                                    title="Logout"
+                                    title="Cerrar sesión"
                                 >
                                     <LogOut className="w-4 h-4" />
                                 </button>
@@ -90,7 +90,7 @@ const Navbar = () => {
                                 href="/login"
                                 className="relative text-white text-sm tracking-wider font-light group"
                             >
-                                LOGIN
+                                INGRESAR
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#b8812e] transition-all duration-300 group-hover:w-full" />
                             </a>
                         )}
@@ -99,7 +99,7 @@ const Navbar = () => {
                         <a
                             href="/Shopping"
                             className="relative text-white hover:text-[#b8812e] transition-colors group"
-                            aria-label="Shopping Cart"
+                            aria-label="Carrito de Compras"
                         >
                             <svg
                                 className="w-6 h-6"
@@ -125,7 +125,7 @@ const Navbar = () => {
                         <a
                             href="/cart"
                             className="relative text-white hover:text-[#b8812e] transition-colors"
-                            aria-label="Shopping Cart"
+                            aria-label="Carrito de Compras"
                         >
                             <svg
                                 className="w-6 h-6"
@@ -147,7 +147,7 @@ const Navbar = () => {
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="text-white p-2 hover:text-[#b8812e] transition-colors"
-                            aria-label="Toggle menu"
+                            aria-label="Abrir menú"
                         >
                             <svg
                                 className="w-6 h-6"
@@ -200,7 +200,7 @@ const Navbar = () => {
                                                 setIsMobileMenuOpen(false);
                                             }}
                                             className="p-2 text-neutral-400 hover:text-[#b8812e] transition-colors"
-                                            title="Logout"
+                                            title="Cerrar sesión"
                                         >
                                             <LogOut className="w-4 h-4" />
                                         </button>
@@ -212,7 +212,7 @@ const Navbar = () => {
                                     className="block text-white text-sm tracking-wider font-light hover:text-[#b8812e] transition-colors py-2"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
-                                    LOGIN
+                                    INGRESAR
                                 </a>
                             )}
                         </div>

@@ -13,11 +13,11 @@ import {
 import { ShoppingCart, Plus, Loader2 } from 'lucide-react';
 
 const categories = [
-    { id: 'steaks', name: 'Cuts' },
-    { id: 'appetizers', name: 'Starters' },
-    { id: 'sides', name: 'Sides' },
-    { id: 'desserts', name: 'Desserts' },
-    { id: 'drinks', name: 'Beverages' },
+    { id: 'steaks', name: 'Cortes' },
+    { id: 'appetizers', name: 'Entradas' },
+    { id: 'sides', name: 'Acompañamientos' },
+    { id: 'desserts', name: 'Postres' },
+    { id: 'drinks', name: 'Bebidas' },
 ];
 
 const MenuPage = () => {
@@ -52,7 +52,7 @@ const MenuPage = () => {
             clearTimeout(timeoutId);
             observer.disconnect();
         };
-    }, [menuItems]); // Re-run when menuItems changes
+    }, [menuItems]);
 
     // Debug: Log menuItems to see what's being received
     useEffect(() => {
@@ -72,7 +72,7 @@ const MenuPage = () => {
                     <div className="text-center">
                         <Loader2 className="w-12 h-12 text-primary-500 animate-spin mx-auto mb-4" />
                         <h2 className="text-white text-2xl font-light">
-                            Loading menu...
+                            Cargando menú...
                         </h2>
                     </div>
                 </main>
@@ -102,11 +102,11 @@ const MenuPage = () => {
                                 </svg>
                             </div>
                             <h2 className="text-error text-3xl font-bold mb-4">
-                                Error Loading Menu
+                                Error al Cargar el Menú
                             </h2>
                             <p className="text-neutral-400 mb-6">{error}</p>
                             <p className="text-neutral-500 text-sm">
-                                Ensure the Django API is running at:{' '}
+                                Asegúrate de que la API de Django esté ejecutándose en:{' '}
                                 <code className="text-primary-500 bg-neutral-800 px-2 py-1 rounded">
                                     http://127.0.0.1:8000
                                 </code>
@@ -127,9 +127,9 @@ const MenuPage = () => {
                 {/* Hero Section */}
                 <HeroSection
                     backgroundImage="https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&q=80"
-                    badge="Culinary Excellence"
-                    title="Our Menu"
-                    subtitle="Discover our carefully curated selection of premium dishes"
+                    badge="Excelencia Culinaria"
+                    title="Nuestro Menú"
+                    subtitle="Descubre nuestra selección cuidadosamente curada de platillos premium"
                 />
 
                 {/* Category Filter - Sticky */}
@@ -184,6 +184,21 @@ const MenuPage = () => {
                                             animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`,
                                         }}
                                     >
+                                        {/* Add Image Section */}
+                                        {item.img && (
+                                            <div className="mb-4 rounded-lg overflow-hidden aspect-video bg-neutral-800">
+                                                <img
+                                                    src={item.img}
+                                                    alt={item.name}
+                                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                                    onError={(e) => {
+                                                        // Fallback if image fails to load
+                                                        e.target.style.display = 'none';
+                                                    }}
+                                                />
+                                            </div>
+                                        )}
+
                                         {/* Item Header */}
                                         <div className="flex justify-between items-start gap-4 mb-4">
                                             <div className="flex-1 text-left" style={{ textAlign: 'left' }}>
@@ -210,7 +225,7 @@ const MenuPage = () => {
                                             <Badge
                                                 variant={item.available ? 'success' : 'error'}
                                             >
-                                                {item.available ? 'Available' : 'Unavailable'}
+                                                {item.available ? 'Disponible' : 'No Disponible'}
                                             </Badge>
 
                                             {/* Add to Cart Button */}
@@ -223,7 +238,7 @@ const MenuPage = () => {
                                                 >
                                                     <ShoppingCart className="w-4 h-4" />
                                                     <span className="hidden sm:inline">
-                                                        Add to Cart
+                                                        Agregar al Carrito
                                                     </span>
                                                     <Plus className="w-4 h-4 sm:hidden" />
                                                 </Button>
@@ -248,10 +263,10 @@ const MenuPage = () => {
                                             </svg>
                                         </div>
                                         <h3 className="text-xl font-semibold text-white mb-2">
-                                            No Items Available
+                                            No Hay Artículos Disponibles
                                         </h3>
                                         <p className="text-neutral-400">
-                                            There are currently no items in this category.
+                                            Actualmente no hay artículos en esta categoría.
                                         </p>
                                     </Card>
                                 </div>

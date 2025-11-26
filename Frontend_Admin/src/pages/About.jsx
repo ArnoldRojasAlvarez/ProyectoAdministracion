@@ -38,9 +38,9 @@ const AboutPage = () => {
                 {/* Hero Section */}
                 <HeroSection
                     backgroundImage="https://www.teahub.io/photos/full/355-3559242_wine-and-steak-house.jpg"
-                    badge="Our Story"
-                    title="Our Legacy"
-                    subtitle="Where tradition meets excellence, and every cut tells a story"
+                    badge="Nuestra Historia"
+                    title="Nuestro Legado"
+                    subtitle="Donde la tradición se encuentra con la excelencia"
                 />
 
                 {/* Main Content Section */}
@@ -63,31 +63,22 @@ const AboutPage = () => {
                                         className="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight"
                                         style={{ fontFamily: 'Georgia, serif' }}
                                     >
-                                        The History & Vision
+                                        Historia y Visión
                                     </h2>
                                 </div>
 
                                 <p className="text-base md:text-lg leading-relaxed text-neutral-300">
-                                    Since our founding, PrimeCut has been more than just a
-                                    steakhouse—it's a celebration of culinary artistry. Born
-                                    from a passion for excellence and a dedication to the craft,
-                                    we've built our reputation on sourcing only the finest cuts
-                                    and treating each piece of meat with the respect it
-                                    deserves.
+                                    PrimeCut es más que un asadero—es una celebración del arte 
+                                    culinario. Nacimos de la pasión por la excelencia y nos hemos 
+                                    ganado nuestra reputación seleccionando únicamente los mejores 
+                                    cortes y tratando cada pieza con el respeto que merece.
                                 </p>
 
                                 <p className="text-base md:text-lg leading-relaxed text-neutral-300">
-                                    Our vision is simple yet profound: to create an unforgettable
-                                    dining experience where every guest feels the warmth of our
-                                    hospitality and the mastery behind every dish. We believe
-                                    that great food brings people together, and every meal at
-                                    PrimeCut is a testament to that belief.
+                                    Nuestra visión es crear una experiencia gastronómica 
+                                    inolvidable donde cada platillo refleja maestría y cada 
+                                    comida une a las personas.
                                 </p>
-
-                                <Button variant="primary" className="inline-flex items-center gap-2">
-                                    Meet The Team
-                                    <ArrowRight className="w-4 h-4" />
-                                </Button>
                             </div>
 
                             <div
@@ -101,7 +92,7 @@ const AboutPage = () => {
                                     <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border-2 border-neutral-800 group-hover:border-primary-500/30 transition-all duration-500 shadow-2xl shadow-black/20">
                                         <img
                                             src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&q=80"
-                                            alt="Our History and Vision"
+                                            alt="Nuestra Historia y Visión"
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                         />
                                     </div>
@@ -125,7 +116,7 @@ const AboutPage = () => {
                                     <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border-2 border-neutral-800 group-hover:border-primary-500/30 transition-all duration-500 shadow-2xl shadow-black/20">
                                         <img
                                             src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80"
-                                            alt="The Art of the Grill"
+                                            alt="El Arte del Asado"
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                         />
                                     </div>
@@ -144,30 +135,22 @@ const AboutPage = () => {
                                         className="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight"
                                         style={{ fontFamily: 'Georgia, serif' }}
                                     >
-                                        The Art of the Grill
+                                        El Arte del Asado
                                     </h2>
                                 </div>
 
                                 <p className="text-base md:text-lg leading-relaxed text-neutral-300">
-                                    Fire is our canvas, and the grill is where magic happens. Our
-                                    master chefs understand that cooking the perfect steak is
-                                    both a science and an art. Each cut is carefully selected,
-                                    aged to perfection, and seared at precise temperatures to
-                                    lock in the natural flavors and create that signature char.
+                                    El fuego es nuestro lienzo y la parrilla donde ocurre la magia. 
+                                    Nuestros maestros chef entienden que preparar el corte perfecto 
+                                    es ciencia y arte. Cada pieza se selecciona cuidadosamente, se 
+                                    madura a la perfección y se sella a temperaturas precisas.
                                 </p>
 
                                 <p className="text-base md:text-lg leading-relaxed text-neutral-300">
-                                    From the moment the steak touches the flame to the second it
-                                    reaches your plate, every step is executed with meticulous
-                                    attention to detail. We don't just cook steaks—we craft
-                                    experiences that awaken your senses and leave lasting
-                                    memories.
+                                    Desde el momento en que el corte toca la llama hasta que llega 
+                                    a tu mesa, cada paso se ejecuta con atención meticulosa. No solo 
+                                    cocinamos carnes—creamos experiencias memorables.
                                 </p>
-
-                                <Button variant="primary" className="inline-flex items-center gap-2">
-                                    Book Your Experience
-                                    <ArrowRight className="w-4 h-4" />
-                                </Button>
                             </div>
                         </div>
                     </div>
@@ -198,8 +181,8 @@ const AboutPage = () => {
                             className="text-2xl md:text-3xl lg:text-4xl font-light italic max-w-4xl mx-auto leading-relaxed"
                             style={{ fontFamily: 'Georgia, serif' }}
                         >
-                            "The perfect steak is not cooked, it is crafted with passion,
-                            precision, and an unwavering commitment to excellence."
+                            "El corte perfecto no se cocina, se elabora con pasión, 
+                            precisión y un compromiso inquebrantable con la excelencia."
                         </h3>
 
                         <div className="w-20 h-1 bg-white/30 mx-auto mt-8 rounded-full" />

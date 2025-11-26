@@ -10,7 +10,6 @@ const ShoppingPage = () => {
     const { cartItems, updateQuantity, removeFromCart: removeItem } = useCart();
     const [isVisible, setIsVisible] = useState({});
 
-
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -44,11 +43,11 @@ const ShoppingPage = () => {
             <main className="flex-grow">
                 {/* Hero Section */}
                 <HeroSection
-                    badge="Your Order"
-                    title="Shopping Cart"
+                    badge="Tu Pedido"
+                    title="Carrito de Compras"
                     subtitle={cartItems.length > 0
-                        ? `${cartItems.length} ${cartItems.length === 1 ? 'item' : 'items'} in your cart`
-                        : "Your cart is waiting to be filled with delicious selections"
+                        ? `${cartItems.length} ${cartItems.length === 1 ? 'artículo' : 'artículos'} en tu carrito`
+                        : "Tu carrito está esperando ser llenado con deliciosos artículos"
                     }
                 />
 
@@ -78,12 +77,12 @@ const ShoppingPage = () => {
                                         className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
                                         style={{ fontFamily: 'Georgia, serif' }}
                                     >
-                                        Your Cart is Empty
+                                        Tu Carrito Está Vacío
                                     </h2>
 
                                     {/* Description */}
                                     <p className="text-neutral-400 text-lg mb-8 leading-relaxed">
-                                        Discover our carefully curated menu and add your favorite dishes to get started
+                                        Descubre nuestro menú cuidadosamente seleccionado y agrega tus platillos favoritos para comenzar
                                     </p>
 
                                     {/* CTA Button */}
@@ -93,7 +92,7 @@ const ShoppingPage = () => {
                                         className="inline-flex items-center gap-2"
                                         onClick={() => window.location.href = '/menu'}
                                     >
-                                        Explore Our Menu
+                                        Explorar Nuestro Menú
                                         <ArrowRight className="w-5 h-5" />
                                     </Button>
                                 </Card>
@@ -114,14 +113,14 @@ const ShoppingPage = () => {
                                     {/* Section Header */}
                                     <div className="flex items-center justify-between mb-6">
                                         <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                                            Cart Items
+                                            Artículos del Carrito
                                         </h2>
                                         <a
                                             href="/menu"
                                             className="text-primary-500 hover:text-white transition-colors text-sm font-medium inline-flex items-center gap-2"
                                         >
                                             <Plus className="w-4 h-4" />
-                                            Add More
+                                            Agregar Más
                                         </a>
                                     </div>
 
@@ -137,7 +136,15 @@ const ShoppingPage = () => {
                                             <div className="flex flex-col sm:flex-row gap-6">
                                                 {/* Product Image */}
                                                 <div className="w-full sm:w-32 h-32 bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-lg flex items-center justify-center flex-shrink-0 border border-neutral-700">
-                                                    <ShoppingBag className="w-12 h-12" style={{ color: '#b8812e' }} />
+                                                    {item.img ? (
+                                                        <img 
+                                                            src={item.img} 
+                                                            alt={item.name}
+                                                            className="w-full h-full object-cover rounded-lg"
+                                                        />
+                                                    ) : (
+                                                        <ShoppingBag className="w-12 h-12" style={{ color: '#b8812e' }} />
+                                                    )}
                                                 </div>
 
                                                 {/* Product Details */}
@@ -151,16 +158,11 @@ const ShoppingPage = () => {
                                                             <p className="text-sm text-neutral-400 leading-relaxed">
                                                                 {item.description}
                                                             </p>
-                                                            {item.weight && (
-                                                                <p className="text-xs text-neutral-500 mt-1">
-                                                                    {item.weight}
-                                                                </p>
-                                                            )}
                                                         </div>
                                                         <button
                                                             onClick={() => removeItem(item.id)}
                                                             className="p-2 text-neutral-400 hover:text-error hover:bg-error/10 rounded-lg transition-all duration-200"
-                                                            aria-label="Remove item"
+                                                            aria-label="Eliminar artículo"
                                                         >
                                                             <Trash2 className="w-5 h-5" />
                                                         </button>
@@ -194,7 +196,7 @@ const ShoppingPage = () => {
                                                             </p>
                                                             {item.quantity > 1 && (
                                                                 <p className="text-neutral-500 text-xs">
-                                                                    ${item.price.toFixed(2)} each
+                                                                    ${item.price.toFixed(2)} c/u
                                                                 </p>
                                                             )}
                                                         </div>
@@ -216,7 +218,7 @@ const ShoppingPage = () => {
                                         {/* Summary Card */}
                                         <Card className="p-6">
                                             <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">
-                                                Order Summary
+                                                Resumen del Pedido
                                             </h2>
 
                                             {/* Price Breakdown */}
@@ -226,7 +228,7 @@ const ShoppingPage = () => {
                                                     <span className="font-semibold">${subtotal.toFixed(2)}</span>
                                                 </div>
                                                 <div className="flex justify-between text-neutral-300">
-                                                    <span>Tax (8%)</span>
+                                                    <span>Impuesto (8%)</span>
                                                     <span className="font-semibold">${tax.toFixed(2)}</span>
                                                 </div>
                                                 <div className="border-t border-neutral-700 pt-4">
@@ -246,7 +248,7 @@ const ShoppingPage = () => {
                                                 className="w-full mb-4 justify-center"
                                                 onClick={() => window.location.href = '/checkout'}
                                             >
-                                                Proceed to Checkout
+                                                Proceder al Pago
                                                 <ArrowRight className="w-5 h-5" />
                                             </Button>
 
@@ -257,27 +259,27 @@ const ShoppingPage = () => {
                                                 className="w-full justify-center"
                                                 onClick={() => window.location.href = '/menu'}
                                             >
-                                                Continue Shopping
+                                                Seguir Comprando
                                             </Button>
                                         </Card>
 
                                         {/* Additional Info Card */}
                                         <Card className="p-6">
                                             <h3 className="text-lg font-semibold text-white mb-4 tracking-tight">
-                                                Order Information
+                                                Información del Pedido
                                             </h3>
                                             <div className="space-y-4 text-sm">
                                                 <div className="flex items-start gap-3">
                                                     <CheckCircle className="w-5 h-5" style={{ color: '#b8812e' }} />
-                                                    <span className="text-neutral-300">Secure checkout process</span>
+                                                    <span className="text-neutral-300">Proceso de pago seguro</span>
                                                 </div>
                                                 <div className="flex items-start gap-3">
                                                     <Clock className="w-5 h-5" style={{ color: '#b8812e' }} />
-                                                    <span className="text-neutral-300">Est. preparation: 45-60 minutes</span>
+                                                    <span className="text-neutral-300">Preparación estimada: 45-60 minutos</span>
                                                 </div>
                                                 <div className="flex items-start gap-3">
                                                     <CreditCard className="w-5 h-5" style={{ color: '#b8812e' }} />
-                                                    <span className="text-neutral-300">All major cards accepted</span>
+                                                    <span className="text-neutral-300">Se aceptan todas las tarjetas principales</span>
                                                 </div>
                                             </div>
                                         </Card>

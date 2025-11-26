@@ -42,9 +42,9 @@ const LoginPage = () => {
             <main className="flex-grow">
                 <HeroSection
                     backgroundImage="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80"
-                    badge="Welcome Back"
-                    title="Login"
-                    subtitle="Access your account to manage orders and reservations"
+                    badge="Bienvenido de Vuelta"
+                    title="Iniciar Sesión"
+                    subtitle="Accede a tu cuenta para gestionar tus pedidos"
                 />
 
                 <section className="relative py-16 md:py-24 bg-gradient-to-b from-neutral-950 to-neutral-900">
@@ -55,10 +55,10 @@ const LoginPage = () => {
                                     <LogIn className="w-8 h-8 text-primary-500" />
                                 </div>
                                 <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-2">
-                                    Sign In
+                                    Iniciar Sesión
                                 </h2>
                                 <p className="text-neutral-400 text-sm">
-                                    Enter your credentials to continue
+                                    Ingresa tus credenciales para continuar
                                 </p>
                             </div>
 
@@ -70,18 +70,18 @@ const LoginPage = () => {
 
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <Input
-                                    label="Username"
+                                    label="Usuario"
                                     type="text"
                                     name="username"
                                     value={formData.username}
                                     onChange={handleChange}
-                                    placeholder="Enter your username"
+                                    placeholder="Ingresa tu nombre de usuario"
                                     required
                                 />
 
                                 <div className="space-y-2">
                                     <label className="block text-sm font-medium text-neutral-300">
-                                        Password
+                                        Contraseña
                                         <span className="text-accent-500 ml-1">*</span>
                                     </label>
                                     <div className="relative">
@@ -90,7 +90,7 @@ const LoginPage = () => {
                                             name="password"
                                             value={formData.password}
                                             onChange={handleChange}
-                                            placeholder="Enter your password"
+                                            placeholder="Ingresa tu contraseña"
                                             required
                                             className="w-full px-4 py-3 pr-12 bg-neutral-900 border border-neutral-800 rounded-lg text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
                                         />
@@ -98,6 +98,7 @@ const LoginPage = () => {
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
                                             className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white transition-colors"
+                                            aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                                         >
                                             {showPassword ? (
                                                 <EyeOff className="w-5 h-5" />
@@ -118,25 +119,16 @@ const LoginPage = () => {
                                     {isLoading ? (
                                         <>
                                             <Loader2 className="w-5 h-5 animate-spin" />
-                                            Signing In...
+                                            Iniciando sesión...
                                         </>
                                     ) : (
                                         <>
                                             <LogIn className="w-5 h-5" />
-                                            Sign In
+                                            Iniciar Sesión
                                         </>
                                     )}
                                 </Button>
                             </form>
-
-                            <div className="mt-6 text-center">
-                                <p className="text-neutral-400 text-sm">
-                                    Don't have an account?{' '}
-                                    <a href="/register" className="text-primary-500 hover:text-white transition-colors">
-                                        Sign up
-                                    </a>
-                                </p>
-                            </div>
                         </Card>
                     </div>
                 </section>

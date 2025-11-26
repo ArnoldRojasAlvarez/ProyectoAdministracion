@@ -36,18 +36,18 @@ const CalendarPage = () => {
     const exampleEvent = {
         12: [
             {
-                title: "Wine Pairing Evening",
+                title: "Noche de Cortes premium con Vinos",
                 time: "7:00 PM - 10:00 PM",
-                description: "Join us for an exclusive wine pairing dinner featuring our sommelier's curated selection",
-                location: "Main Dining Room",
-                type: "special"
+                description: "Únete a nosotros para una cena exclusiva de maridaje con la selección curada de nuestro sommelier",
+                location: "Salón Comedor Principal",
+                type: "especial"
             }
         ]
     };
 
     const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
     ];
 
     const currentMonth = monthNames[currentDate.getMonth()];
@@ -94,9 +94,9 @@ const CalendarPage = () => {
                 {/* Hero Section */}
                 <HeroSection
                     backgroundImage="https://wallpaperaccess.com/full/11177792.jpg"
-                    badge="Events & Schedule"
-                    title="Calendar"
-                    subtitle="Stay updated with our exclusive events and special dining experiences"
+                    badge="Eventos y Agenda"
+                    title="Calendario"
+                    subtitle="Mantente actualizado con nuestros eventos exclusivos y experiencias gastronómicas especiales"
                 />
 
                 {/* Calendar Section */}
@@ -121,7 +121,7 @@ const CalendarPage = () => {
                                         <button
                                             onClick={goToPreviousMonth}
                                             className="p-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 rounded-lg transition-all duration-200 group"
-                                            aria-label="Previous month"
+                                            aria-label="Mes anterior"
                                         >
                                             <svg
                                                 className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors"
@@ -146,7 +146,7 @@ const CalendarPage = () => {
                                         <button
                                             onClick={goToNextMonth}
                                             className="p-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 rounded-lg transition-all duration-200 group"
-                                            aria-label="Next month"
+                                            aria-label="Mes siguiente"
                                         >
                                             <svg
                                                 className="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors"
@@ -164,7 +164,7 @@ const CalendarPage = () => {
 
                                     {/* Day Labels */}
                                     <div className="grid grid-cols-7 gap-2 mb-4">
-                                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                                        {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map((day) => (
                                             <div
                                                 key={day}
                                                 className="text-center text-xs md:text-sm font-semibold py-2 uppercase tracking-wider"
@@ -226,16 +226,16 @@ const CalendarPage = () => {
                                 {/* Event Legend */}
                                 <Card className="p-6">
                                     <h3 className="text-xl font-semibold text-white mb-4 tracking-tight">
-                                        Event Key
+                                        Leyenda de Eventos
                                     </h3>
                                     <div className="space-y-3">
                                         <div className="flex items-center gap-3">
                                             <div className="w-4 h-4 rounded border-2" style={{ backgroundColor: 'rgba(184, 129, 46, 0.2)', borderColor: 'rgba(184, 129, 46, 0.3)' }} />
-                                            <span className="text-sm text-neutral-300">Special Event</span>
+                                            <span className="text-sm text-neutral-300">Evento Especial</span>
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <div className="w-4 h-4 rounded border-2" style={{ backgroundColor: '#b8812e', borderColor: '#b8812e' }} />
-                                            <span className="text-sm text-neutral-300">Selected Date</span>
+                                            <span className="text-sm text-neutral-300">Fecha Seleccionada</span>
                                         </div>
                                     </div>
                                 </Card>
@@ -253,7 +253,7 @@ const CalendarPage = () => {
                                             <button
                                                 onClick={() => setSelectedDate(null)}
                                                 className="text-neutral-400 hover:text-white transition-colors p-1"
-                                                aria-label="Close event details"
+                                                aria-label="Cerrar detalles del evento"
                                             >
                                                 <svg
                                                     className="w-5 h-5"
@@ -306,7 +306,7 @@ const CalendarPage = () => {
                                     /* Upcoming Events Preview */
                                     <Card className="p-6">
                                         <h3 className="text-xl font-semibold text-white mb-4 tracking-tight">
-                                            Upcoming Events
+                                            Próximos Eventos
                                         </h3>
                                         <div className="space-y-4">
                                             {Object.entries(exampleEvent).map(([day, dayEvents]) => (

@@ -1,4 +1,4 @@
-import { Menu, Calendar, Eye, EyeOff, Edit2, Trash2, Plus, X } from 'lucide-react';
+import { Menu, Calendar, Eye, EyeOff, Edit2, Trash2, Plus, X, Upload, Image as ImageIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -49,7 +49,7 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'confirm' })
               transition-all duration-200
             "
           >
-            Cancel
+            Cancelar
           </button>
           <button
             onClick={() => {
@@ -65,7 +65,7 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'confirm' })
               shadow-lg shadow-red-600/25
             "
           >
-            Delete
+            Eliminar
           </button>
         </div>
       </div>
@@ -78,6 +78,8 @@ const AdminPage = () => {
   const [showItemForm, setShowItemForm] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
   const [modalState, setModalState] = useState({
     isOpen: false,
     title: '',
@@ -90,7 +92,9 @@ const AdminPage = () => {
     tipo: 'Fuerte',
     precio: '',
     disponible: true,
-    descripcion: ''
+    descripcion: '',
+    img: null,
+    imageFile: null
   });
 
   // Calendar Events State
@@ -105,6 +109,7 @@ const AdminPage = () => {
     description: '',
     type: 'special'
   });
+
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -112,15 +117,14 @@ const AdminPage = () => {
         if (response.ok) {
           const data = await response.json();
           
-          // Importante: La API devuelve "idproducto", pero tu admin usa "id".
-          // Vamos a transformar los datos para que encajen en tu tabla.
           const productosMapeados = data.map(item => ({
-            id: item.idproducto,       // Mapeamos idproducto a id
+            id: item.idproducto,
             nombre: item.nombre,
             tipo: item.tipo,
             precio: parseFloat(item.precio),
             descripcion: item.descripcion,
-            disponible: true // Por defecto true, ya que tu API aun no trae este campo bien
+            disponible: true,
+            img: item.img || null
           }));
 
           setMenuItems(productosMapeados);
@@ -143,92 +147,252 @@ const AdminPage = () => {
     });
   };
 
-  const handleAddItem = async () => {
-    // 1. Validación simple
-    if (!itemForm.nombre || !itemForm.precio) {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
         setModalState({
           isOpen: true,
-          title: 'Missing Information',
-          message: 'Please complete the name and price fields.',
+          title: 'Archivo Inválido',
+          message: 'Por favor selecciona un archivo de imagen.',
           onConfirm: () => {},
         });
         return;
-    }
+      }
 
-    // 2. Preparamos los datos
-    // Generamos un ID temporal basado en la fecha (si tu backend lo requiere manual)
-    const newId = Date.now().toString().slice(-9);
-    
-    const productoParaEnviar = {
-        idproducto: newId,
-        nombre: itemForm.nombre,
-        descripcion: itemForm.descripcion || "", // Evita enviar null/undefined
-        precio: parseFloat(itemForm.precio),
-        tipo: itemForm.tipo, // Ya está en español, así que lo enviamos directo
-        // disponible: itemForm.disponible (Nota: Tu backend aun no lee esto, pero es bueno dejarlo listo)
-    };
-
-    try {
-        // 3. Petición POST al Backend
-        const response = await fetch('http://127.0.0.1:8000/api/crear_producto/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(productoParaEnviar)
-        });
-
-        if (response.ok) {
-            // 4. Éxito: Actualizamos la vista del Admin
-            const newItem = {
-                id: parseInt(newId), // Convertimos a número para que React no se queje en las keys
-                ...itemForm,         // Copiamos los datos del form para visualizarlos
-                precio: parseFloat(itemForm.precio)
-            };
-
-            setMenuItems([...menuItems, newItem]);
-            resetItemForm();
-            // Opcional: alert("Producto creado con éxito");
-        } else {
-            // Manejo de errores del servidor
-            const errorData = await response.json();
-            console.error("Error del servidor:", errorData);
-            setModalState({
-              isOpen: true,
-              title: 'Error',
-              message: 'Could not save the product. Check the console for details.',
-              onConfirm: () => {},
-            });
-        }
-    } catch (error) {
-        console.error("Error de conexión:", error);
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
         setModalState({
           isOpen: true,
-          title: 'Connection Error',
-          message: 'Could not connect to the server. Is Django running?',
+          title: 'Archivo Muy Grande',
+          message: 'La imagen debe ser menor a 5MB.',
           onConfirm: () => {},
         });
+        return;
+      }
+
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+
+      setItemForm({
+        ...itemForm,
+        imageFile: file
+      });
     }
   };
 
-  const handleUpdateItem = () => {
+  const handleImageUpload = async (file) => {
+    if (!file) return null;
+
+    setUploadingImage(true);
+    
+    try {
+      const formData = new FormData();
+      formData.append('imagen', file);
+
+      const response = await fetch('http://127.0.0.1:8000/api/subir_imagen/', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Image uploaded successfully:', data.url);
+        return data.url;
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al subir imagen');
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      setModalState({
+        isOpen: true,
+        title: 'Error de Carga',
+        message: `No se pudo cargar la imagen: ${error.message}`,
+        onConfirm: () => {},
+      });
+      return null;
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleAddItem = async () => {
+    if (!itemForm.nombre || !itemForm.precio) {
+      setModalState({
+        isOpen: true,
+        title: 'Información Faltante',
+        message: 'Por favor completa los campos de nombre y precio.',
+        onConfirm: () => {},
+      });
+      return;
+    }
+
+    const newId = Date.now().toString().slice(-9);
+    
+    try {
+      // First, upload image if one was selected
+      let imageUrl = null;
+      if (itemForm.imageFile) {
+        const formData = new FormData();
+        formData.append('imagen', itemForm.imageFile);
+
+        const uploadResponse = await fetch('http://127.0.0.1:8000/api/subir_imagen/', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (uploadResponse.ok) {
+          const uploadData = await uploadResponse.json();
+          imageUrl = uploadData.url;
+          console.log('Image uploaded:', imageUrl);
+        } else {
+          const errorData = await uploadResponse.json();
+          throw new Error(`Error al cargar imagen: ${errorData.error}`);
+        }
+      }
+
+      // Then create product with image URL
+      const productoParaEnviar = {
+        idproducto: newId,
+        nombre: itemForm.nombre,
+        descripcion: itemForm.descripcion || "",
+        precio: parseFloat(itemForm.precio),
+        tipo: itemForm.tipo,
+        img: imageUrl,
+      };
+
+      const response = await fetch('http://127.0.0.1:8000/api/crear_producto/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productoParaEnviar)
+      });
+
+      if (response.ok) {
+        const newItem = {
+          id: parseInt(newId),
+          nombre: itemForm.nombre,
+          tipo: itemForm.tipo,
+          precio: parseFloat(itemForm.precio),
+          descripcion: itemForm.descripcion,
+          disponible: itemForm.disponible,
+          img: imageUrl
+        };
+
+        setMenuItems([...menuItems, newItem]);
+        resetItemForm();
+        
+        setModalState({
+          isOpen: true,
+          title: 'Éxito',
+          message: '¡Producto creado exitosamente!',
+          onConfirm: () => {},
+        });
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al crear producto');
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setModalState({
+        isOpen: true,
+        title: 'Error',
+        message: error.message || 'No se pudo guardar el producto.',
+        onConfirm: () => {},
+      });
+    }
+  };
+
+  const handleUpdateItem = async () => {
     if (editingItem && itemForm.nombre && itemForm.precio) {
-      setMenuItems(
-        menuItems.map(item =>
-          item.id === editingItem.id
-            ? { ...item, ...itemForm, precio: parseFloat(itemForm.precio) }
-            : item
-        )
-      );
-      resetItemForm();
+      try {
+        let imageUrl = itemForm.img; // Keep existing image
+
+        // If a new image file was selected, upload it first
+        if (itemForm.imageFile) {
+          const formData = new FormData();
+          formData.append('imagen', itemForm.imageFile);
+
+          const uploadResponse = await fetch('http://127.0.0.1:8000/api/subir_imagen/', {
+            method: 'POST',
+            body: formData
+          });
+
+          if (uploadResponse.ok) {
+            const uploadData = await uploadResponse.json();
+            imageUrl = uploadData.url;
+            console.log('New image uploaded:', imageUrl);
+          } else {
+            const errorData = await uploadResponse.json();
+            throw new Error(`Error al cargar imagen: ${errorData.error}`);
+          }
+        }
+
+        // Now update the product in the database
+        const updateData = {
+          nombre: itemForm.nombre,
+          descripcion: itemForm.descripcion,
+          precio: parseFloat(itemForm.precio),
+          tipo: itemForm.tipo,
+          disponible: itemForm.disponible,
+          img: imageUrl
+        };
+
+        const response = await fetch(`http://127.0.0.1:8000/api/actualizar_producto/${editingItem.id}/`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updateData)
+        });
+
+        if (response.ok) {
+          // Update local state
+          setMenuItems(
+            menuItems.map(item =>
+              item.id === editingItem.id
+                ? { ...item, ...updateData }
+                : item
+            )
+          );
+          
+          resetItemForm();
+          
+          setModalState({
+            isOpen: true,
+            title: 'Éxito',
+            message: '¡Producto actualizado exitosamente!',
+            onConfirm: () => {},
+          });
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Error al actualizar producto');
+        }
+
+      } catch (error) {
+        console.error("Error updating product:", error);
+        setModalState({
+          isOpen: true,
+          title: 'Error de Actualización',
+          message: error.message || 'No se pudo actualizar el producto.',
+          onConfirm: () => {},
+        });
+      }
     }
   };
 
   const handleDeleteItem = async (id) => {
     setModalState({
       isOpen: true,
-      title: 'Delete Product',
-      message: 'Are you sure you want to delete this product? This action cannot be undone.',
+      title: 'Eliminar Producto',
+      message: '¿Estás seguro de que quieres eliminar este producto? Esta acción no se puede deshacer.',
       onConfirm: async () => {
         try {
           const response = await fetch(`http://127.0.0.1:8000/api/eliminar_producto/${id}/`, {
@@ -242,7 +406,7 @@ const AdminPage = () => {
             setModalState({
               isOpen: true,
               title: 'Error',
-              message: `Could not delete: ${errorData.error || 'Unknown error'}`,
+              message: `No se pudo eliminar: ${errorData.error || 'Error desconocido'}`,
               onConfirm: () => {},
             });
           }
@@ -250,8 +414,8 @@ const AdminPage = () => {
           console.error("Error al eliminar:", error);
           setModalState({
             isOpen: true,
-            title: 'Connection Error',
-            message: 'Server connection error.',
+            title: 'Error de Conexión',
+            message: 'Error de conexión con el servidor.',
             onConfirm: () => {},
           });
         }
@@ -261,66 +425,74 @@ const AdminPage = () => {
 
   const handleEditItem = (item) => {
     setEditingItem(item);
-    setItemForm(item);
+    setItemForm({
+      nombre: item.nombre,
+      tipo: item.tipo,
+      precio: item.precio,
+      disponible: item.disponible,
+      descripcion: item.descripcion,
+      img: item.img,
+      imageFile: null
+    });
+    setImagePreview(item.img);
     setShowItemForm(true);
   };
 
   const toggleItemAvailability = async (id) => {
-    // 1. Buscamos el item actual para saber su estado y su ID real
     const itemToUpdate = menuItems.find(item => item.id === id);
     if (!itemToUpdate) return;
 
-    const nuevoEstado = !itemToUpdate.disponible; // Invertimos el estado (true -> false)
+    const nuevoEstado = !itemToUpdate.disponible;
 
     try {
-        // 2. Llamamos a la API
-        const response = await fetch(`http://127.0.0.1:8000/api/cambiar_estado/${id}/`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ disponible: nuevoEstado })
-        });
+      const response = await fetch(`http://127.0.0.1:8000/api/cambiar_estado/${id}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ disponible: nuevoEstado })
+      });
 
-        if (response.ok) {
-            // 3. Si la API responde bien, actualizamos la vista localmente
-            setMenuItems(
-                menuItems.map(item =>
-                    item.id === id ? { ...item, disponible: nuevoEstado } : item
-                )
-            );
-        } else {
-            console.error("Error al actualizar estado en el servidor");
-            setModalState({
-              isOpen: true,
-              title: 'Error',
-              message: 'Could not change the status.',
-              onConfirm: () => {},
-            });
-        }
-
-    } catch (error) {
-        console.error("Error de conexión:", error);
+      if (response.ok) {
+        setMenuItems(
+          menuItems.map(item =>
+            item.id === id ? { ...item, disponible: nuevoEstado } : item
+          )
+        );
+      } else {
+        console.error("Error al actualizar estado en el servidor");
         setModalState({
           isOpen: true,
-          title: 'Connection Error',
-          message: 'Server connection error.',
+          title: 'Error',
+          message: 'No se pudo cambiar el estado.',
           onConfirm: () => {},
         });
+      }
+    } catch (error) {
+      console.error("Error de conexión:", error);
+      setModalState({
+        isOpen: true,
+        title: 'Error de Conexión',
+        message: 'Error de conexión con el servidor.',
+        onConfirm: () => {},
+      });
     }
   };
 
   const resetItemForm = () => {
     setShowItemForm(false);
     setEditingItem(null);
+    setImagePreview(null);
     setItemForm({
       nombre: '',
       tipo: 'Fuerte',
       precio: '',
       disponible: true,
-      descripcion: ''
+      descripcion: '',
+      img: null,
+      imageFile: null
     });
-  }
+  };
 
   // Calendar Event Handlers
   const handleEventFormChange = (e) => {
@@ -335,8 +507,8 @@ const AdminPage = () => {
     if (!eventForm.title || !eventForm.date || !eventForm.time) {
       setModalState({
         isOpen: true,
-        title: 'Missing Information',
-        message: 'Please complete title, date, and time fields.',
+        title: 'Información Faltante',
+        message: 'Por favor completa los campos de título, fecha y hora.',
         onConfirm: () => {},
       });
       return;
@@ -354,8 +526,8 @@ const AdminPage = () => {
   const handleDeleteEvent = (id) => {
     setModalState({
       isOpen: true,
-      title: 'Delete Event',
-      message: 'Are you sure you want to delete this event?',
+      title: 'Eliminar Evento',
+      message: '¿Estás seguro de que quieres eliminar este evento?',
       onConfirm: () => {
         setCalendarEvents(calendarEvents.filter(event => event.id !== id));
       },
@@ -376,8 +548,8 @@ const AdminPage = () => {
   };
 
   const tabs = [
-    { id: 'menu', name: 'Menu Management', icon: Menu },
-    { id: 'calendar', name: 'Calendar Events', icon: Calendar },
+    { id: 'menu', name: 'Gestión de Menú', icon: Menu },
+    { id: 'calendar', name: 'Eventos del Calendario', icon: Calendar },
   ];
 
   return (
@@ -394,7 +566,7 @@ const AdminPage = () => {
       />
 
       <main className="flex-grow pt-20 md:pt-24">
-        {/* Hero Section - Refined */}
+        {/* Hero Section */}
         <section className="relative bg-gradient-to-b from-neutral-900 to-neutral-950 py-12 md:py-16 border-b border-neutral-800">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
@@ -403,16 +575,16 @@ const AdminPage = () => {
                 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-white"
                 style={{ fontFamily: 'Georgia, serif' }}
               >
-                Admin Panel
+                Panel de Administración
               </h1>
               <p className="text-neutral-400 text-lg font-normal">
-                Manage your restaurant menu and calendar
+                Administra el menú y calendario de tu restaurante
               </p>
             </div>
           </div>
         </section>
 
-        {/* Tab Navigation - Refined */}
+        {/* Tab Navigation */}
         <section className="sticky top-20 z-40 bg-neutral-950/95 backdrop-blur-xl border-b border-neutral-800">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
@@ -444,7 +616,7 @@ const AdminPage = () => {
           </div>
         </section>
 
-        {/* Content - Refined */}
+        {/* Content */}
         <section className="py-8 md:py-12">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             {activeTab === 'menu' && (
@@ -452,7 +624,7 @@ const AdminPage = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                    Menu Items
+                    Productos del Menú
                   </h2>
                   <button
                     onClick={() => setShowItemForm(!showItemForm)}
@@ -467,22 +639,75 @@ const AdminPage = () => {
                     "
                   >
                     <Plus className="w-4 h-4" />
-                    <span>Add Item</span>
+                    <span>Agregar Producto</span>
                   </button>
                 </div>
 
-                {/* Form - Refined */}
+                {/* Form */}
                 {showItemForm && (
                   <div className="bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl shadow-black/20 p-6 md:p-8">
                     <h3 className="text-xl font-semibold text-white mb-6 tracking-tight">
-                      {editingItem ? 'Edit Item' : 'Add New Item'}
+                      {editingItem ? 'Editar Producto' : 'Agregar Nuevo Producto'}
                     </h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Image Upload */}
+                      <div className="md:col-span-2 space-y-2">
+                        <label className="block text-sm font-medium text-neutral-300">
+                          Imagen del Producto
+                        </label>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                          {/* Image Preview */}
+                          <div className="flex-shrink-0">
+                            <div className="w-32 h-32 bg-neutral-800 border-2 border-dashed border-neutral-700 rounded-lg overflow-hidden flex items-center justify-center">
+                              {imagePreview ? (
+                                <img 
+                                  src={imagePreview} 
+                                  alt="Vista previa" 
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <ImageIcon className="w-12 h-12 text-neutral-600" />
+                              )}
+                            </div>
+                          </div>
+                          
+                          {/* Upload Button */}
+                          <div className="flex-1 flex flex-col justify-center">
+                            <label className="
+                              inline-flex items-center justify-center gap-2 px-4 py-2.5
+                              bg-neutral-800 hover:bg-neutral-700
+                              border border-neutral-700 hover:border-neutral-600
+                              text-neutral-300 hover:text-white
+                              rounded-lg text-sm font-medium
+                              transition-all duration-200
+                              cursor-pointer
+                            ">
+                              <Upload className="w-4 h-4" />
+                              <span>Elegir Imagen</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="hidden"
+                              />
+                            </label>
+                            <p className="text-xs text-neutral-500 mt-2">
+                              PNG, JPG hasta 5MB
+                            </p>
+                            {uploadingImage && (
+                              <p className="text-xs text-primary-500 mt-1">
+                                Subiendo...
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
                       {/* Name Field */}
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Item Name
+                          Nombre del Producto
                           <span className="text-accent-500 ml-1">*</span>
                         </label>
                         <input
@@ -490,7 +715,7 @@ const AdminPage = () => {
                           name="nombre"
                           value={itemForm.nombre}
                           onChange={handleItemFormChange}
-                          placeholder="e.g., Ribeye Supreme"
+                          placeholder="ej., Filete Supremo"
                           className="
                             w-full px-4 py-3 
                             bg-neutral-900 
@@ -506,7 +731,7 @@ const AdminPage = () => {
                       {/* Type Field */}
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Category
+                          Categoría
                           <span className="text-accent-500 ml-1">*</span>
                         </label>
                         <select
@@ -534,7 +759,7 @@ const AdminPage = () => {
                       {/* Price Field */}
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Price (USD)
+                          Precio (USD)
                           <span className="text-accent-500 ml-1">*</span>
                         </label>
                         <div className="relative">
@@ -574,7 +799,7 @@ const AdminPage = () => {
                             <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-5"></div>
                           </div>
                           <span className="text-sm font-medium text-neutral-300 group-hover:text-white transition-colors">
-                            Available for order
+                            Disponible para ordenar
                           </span>
                         </label>
                       </div>
@@ -582,7 +807,7 @@ const AdminPage = () => {
                       {/* Description Field */}
                       <div className="md:col-span-2 space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Description
+                          Descripción
                           <span className="text-accent-500 ml-1">*</span>
                         </label>
                         <textarea
@@ -590,7 +815,7 @@ const AdminPage = () => {
                           value={itemForm.descripcion}
                           onChange={handleItemFormChange}
                           rows="3"
-                          placeholder="Describe this menu item..."
+                          placeholder="Describe este producto del menú..."
                           className="
                             w-full px-4 py-3 
                             bg-neutral-900 
@@ -609,9 +834,11 @@ const AdminPage = () => {
                     <div className="flex flex-col sm:flex-row gap-3 mt-8">
                       <button
                         onClick={editingItem ? handleUpdateItem : handleAddItem}
+                        disabled={uploadingImage}
                         className="
                           flex-1 px-6 py-3 
                           bg-primary-500 hover:bg-primary-600
+                          disabled:bg-neutral-700 disabled:cursor-not-allowed
                           text-white font-medium text-sm
                           rounded-lg shadow-lg shadow-primary-500/25
                           transition-all duration-200
@@ -619,32 +846,34 @@ const AdminPage = () => {
                           active:scale-[0.98]
                         "
                       >
-                        {editingItem ? 'Update Item' : 'Create Item'}
+                        {uploadingImage ? 'Subiendo...' : editingItem ? 'Actualizar Producto' : 'Crear Producto'}
                       </button>
                       <button
                         onClick={resetItemForm}
+                        disabled={uploadingImage}
                         className="
                           flex-1 px-6 py-3 
                           bg-transparent hover:bg-neutral-800 
+                          disabled:opacity-50 disabled:cursor-not-allowed
                           text-neutral-400 hover:text-white font-medium text-sm
                           rounded-lg border border-neutral-700 hover:border-neutral-600
                           transition-all duration-200
                           focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 focus:ring-offset-neutral-900
                         "
                       >
-                        Cancel
+                        Cancelar
                       </button>
                     </div>
                   </div>
                 )}
 
-                {/* Menu Items List - Refined */}
+                {/* Menu Items List */}
                 <div className="grid grid-cols-1 gap-4">
                   {menuItems.length === 0 ? (
                     <div className="text-center py-16 bg-neutral-900 border border-dashed border-neutral-800 rounded-xl">
                       <Menu className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
-                      <p className="text-neutral-400 text-lg font-medium">No menu items yet</p>
-                      <p className="text-neutral-500 text-sm mt-1">Add your first item to get started</p>
+                      <p className="text-neutral-400 text-lg font-medium">No hay productos en el menú</p>
+                      <p className="text-neutral-500 text-sm mt-1">Agrega tu primer producto para comenzar</p>
                     </div>
                   ) : (
                     menuItems.map((item) => (
@@ -659,44 +888,57 @@ const AdminPage = () => {
                       >
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                           {/* Item Info */}
-                          <div className="flex-1">
-                            <div className="flex items-start justify-between gap-4 mb-3">
-                              <div>
-                                <h3 className="text-xl font-semibold text-white mb-1 tracking-tight">
-                                  {item.nombre}
-                                </h3>
-                                <p className="text-sm text-neutral-400 leading-relaxed">
-                                  {item.descripcion}
-                                </p>
+                          <div className="flex gap-4 flex-1">
+                            {/* Image */}
+                            {item.img && (
+                              <div className="flex-shrink-0">
+                                <img 
+                                  src={item.img} 
+                                  alt={item.nombre}
+                                  className="w-20 h-20 object-cover rounded-lg border border-neutral-800"
+                                />
                               </div>
-                              <span className="text-2xl font-bold whitespace-nowrap" style={{ color: '#b8812e' }}>
-                                ${item.precio.toFixed(2)}
-                              </span>
-                            </div>
+                            )}
                             
-                            {/* Tags */}
-                            <div className="flex flex-wrap items-center gap-2">
-                              <span className="
-                                inline-flex items-center gap-1.5 px-3 py-1 
-                                bg-primary-500/10
-                                border border-primary-500/20
-                                rounded-full text-xs font-medium
-                              " style={{ color: '#b8812e' }}>
-                                {item.tipo}
-                              </span>
-                              <span 
-                                className={`
+                            <div className="flex-1">
+                              <div className="flex items-start justify-between gap-4 mb-3">
+                                <div>
+                                  <h3 className="text-xl font-semibold text-white mb-1 tracking-tight">
+                                    {item.nombre}
+                                  </h3>
+                                  <p className="text-sm text-neutral-400 leading-relaxed">
+                                    {item.descripcion}
+                                  </p>
+                                </div>
+                                <span className="text-2xl font-bold whitespace-nowrap" style={{ color: '#b8812e' }}>
+                                  ${item.precio.toFixed(2)}
+                                </span>
+                              </div>
+                              
+                              {/* Tags */}
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="
                                   inline-flex items-center gap-1.5 px-3 py-1 
+                                  bg-primary-500/10
+                                  border border-primary-500/20
                                   rounded-full text-xs font-medium
-                                  ${item.disponible 
-                                    ? 'bg-success/10 border border-success/20' 
-                                    : 'bg-error/10 border border-error/20'
-                                  }
-                                `}
-                                style={{ color: item.disponible ? '#10b981' : '#ef4444' }}
-                              >
-                                {item.disponible ? 'Available' : 'Unavailable'}
-                              </span>
+                                " style={{ color: '#b8812e' }}>
+                                  {item.tipo}
+                                </span>
+                                <span 
+                                  className={`
+                                    inline-flex items-center gap-1.5 px-3 py-1 
+                                    rounded-full text-xs font-medium
+                                    ${item.disponible 
+                                      ? 'bg-success/10 border border-success/20' 
+                                      : 'bg-error/10 border border-error/20'
+                                    }
+                                  `}
+                                  style={{ color: item.disponible ? '#10b981' : '#ef4444' }}
+                                >
+                                  {item.disponible ? 'Disponible' : 'No Disponible'}
+                                </span>
+                              </div>
                             </div>
                           </div>
 
@@ -713,13 +955,29 @@ const AdminPage = () => {
                                 transition-all duration-200
                                 inline-flex items-center justify-center gap-2
                               "
-                              title="Toggle availability"
+                              title="Alternar disponibilidad"
                             >
                               {item.disponible ? (
                                 <Eye className="w-4 h-4" />
                               ) : (
                                 <EyeOff className="w-4 h-4" />
                               )}
+                            </button>
+
+                            <button
+                              onClick={() => handleEditItem(item)}
+                              className="
+                                flex-1 md:flex-none px-4 py-2 
+                                bg-neutral-800 hover:bg-neutral-700
+                                border border-neutral-700 hover:border-neutral-600
+                                text-neutral-300 hover:text-white
+                                rounded-lg text-sm font-medium
+                                transition-all duration-200
+                                inline-flex items-center justify-center gap-2
+                              "
+                            >
+                              <Edit2 className="w-4 h-4" />
+                              <span className="hidden sm:inline">Editar</span>
                             </button>
                             
                             <button
@@ -735,7 +993,7 @@ const AdminPage = () => {
                               "
                             >
                               <Trash2 className="w-4 h-4" />
-                              <span className="hidden sm:inline">Delete</span>
+                              <span className="hidden sm:inline">Eliminar</span>
                             </button>
                           </div>
                         </div>
@@ -751,7 +1009,7 @@ const AdminPage = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                    Calendar Events
+                    Eventos del Calendario
                   </h2>
                   <button
                     onClick={() => setShowEventForm(!showEventForm)}
@@ -765,7 +1023,7 @@ const AdminPage = () => {
                     "
                   >
                     <Plus className="w-4 h-4" />
-                    <span>Add Event</span>
+                    <span>Agregar Evento</span>
                   </button>
                 </div>
 
@@ -773,14 +1031,14 @@ const AdminPage = () => {
                 {showEventForm && (
                   <div className="bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl shadow-black/20 p-6 md:p-8">
                     <h3 className="text-xl font-semibold text-white mb-6 tracking-tight">
-                      {editingEvent ? 'Edit Event' : 'Add New Event'}
+                      {editingEvent ? 'Editar Evento' : 'Agregar Nuevo Evento'}
                     </h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {/* Title */}
                       <div className="md:col-span-2 space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Event Title
+                          Título del Evento
                           <span className="text-accent-500 ml-1">*</span>
                         </label>
                         <input
@@ -788,7 +1046,7 @@ const AdminPage = () => {
                           name="title"
                           value={eventForm.title}
                           onChange={handleEventFormChange}
-                          placeholder="e.g., Wine Pairing Evening"
+                          placeholder="ej., Noche de Maridaje de Vinos"
                           className="
                             w-full px-4 py-3 
                             bg-neutral-900 
@@ -804,7 +1062,7 @@ const AdminPage = () => {
                       {/* Date */}
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Date
+                          Fecha
                           <span className="text-accent-500 ml-1">*</span>
                         </label>
                         <input
@@ -827,7 +1085,7 @@ const AdminPage = () => {
                       {/* Time */}
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Time
+                          Hora
                           <span className="text-accent-500 ml-1">*</span>
                         </label>
                         <input
@@ -850,14 +1108,14 @@ const AdminPage = () => {
                       {/* Location */}
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Location
+                          Ubicación
                         </label>
                         <input
                           type="text"
                           name="location"
                           value={eventForm.location}
                           onChange={handleEventFormChange}
-                          placeholder="e.g., Main Dining Room"
+                          placeholder="ej., Comedor Principal"
                           className="
                             w-full px-4 py-3 
                             bg-neutral-900 
@@ -873,7 +1131,7 @@ const AdminPage = () => {
                       {/* Type */}
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Event Type
+                          Tipo de Evento
                         </label>
                         <select
                           name="type"
@@ -889,23 +1147,23 @@ const AdminPage = () => {
                             transition-all duration-200
                           "
                         >
-                          <option value="special">Special Event</option>
-                          <option value="reservation">Reservation</option>
-                          <option value="private">Private Event</option>
+                          <option value="special">Evento Especial</option>
+                          <option value="reservation">Reservación</option>
+                          <option value="private">Evento Privado</option>
                         </select>
                       </div>
 
                       {/* Description */}
                       <div className="md:col-span-2 space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Description
+                          Descripción
                         </label>
                         <textarea
                           name="description"
                           value={eventForm.description}
                           onChange={handleEventFormChange}
                           rows="3"
-                          placeholder="Describe the event..."
+                          placeholder="Describe el evento..."
                           className="
                             w-full px-4 py-3 
                             bg-neutral-900 
@@ -933,7 +1191,7 @@ const AdminPage = () => {
                           active:scale-[0.98]
                         "
                       >
-                        {editingEvent ? 'Update Event' : 'Create Event'}
+                        {editingEvent ? 'Actualizar Evento' : 'Crear Evento'}
                       </button>
                       <button
                         onClick={resetEventForm}
@@ -945,7 +1203,7 @@ const AdminPage = () => {
                           transition-all duration-200
                         "
                       >
-                        Cancel
+                        Cancelar
                       </button>
                     </div>
                   </div>
@@ -956,8 +1214,8 @@ const AdminPage = () => {
                   {calendarEvents.length === 0 ? (
                     <div className="text-center py-16 bg-neutral-900 border border-dashed border-neutral-800 rounded-xl">
                       <Calendar className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
-                      <p className="text-neutral-400 text-lg font-medium">No events scheduled</p>
-                      <p className="text-neutral-500 text-sm mt-1">Add your first event to get started</p>
+                      <p className="text-neutral-400 text-lg font-medium">No hay eventos programados</p>
+                      <p className="text-neutral-500 text-sm mt-1">Agrega tu primer evento para comenzar</p>
                     </div>
                   ) : (
                     calendarEvents.map((event) => (
@@ -978,7 +1236,7 @@ const AdminPage = () => {
                                   {event.title}
                                 </h3>
                                 <p className="text-sm text-neutral-400">
-                                  {event.date} at {event.time}
+                                  {event.date} a las {event.time}
                                 </p>
                                 {event.location && (
                                   <p className="text-sm text-neutral-500 mt-1">
@@ -997,7 +1255,7 @@ const AdminPage = () => {
                               className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-500/10 border border-primary-500/20 rounded-full text-xs font-medium"
                               style={{ color: '#b8812e' }}
                             >
-                              {event.type}
+                              {event.type === 'special' ? 'Especial' : event.type === 'reservation' ? 'Reservación' : 'Privado'}
                             </span>
                           </div>
 
@@ -1015,7 +1273,7 @@ const AdminPage = () => {
                               "
                             >
                               <Trash2 className="w-4 h-4" />
-                              <span className="hidden sm:inline">Delete</span>
+                              <span className="hidden sm:inline">Eliminar</span>
                             </button>
                           </div>
                         </div>

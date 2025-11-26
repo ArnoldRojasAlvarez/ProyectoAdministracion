@@ -21,7 +21,7 @@ const Footer = () => {
                             </div>
                         </div>
                         <p className="text-gray-400 text-sm leading-relaxed">
-                            Where fire meets perfection. Experience the finest cuts, expertly prepared with passion.
+                            Donde el fuego alcanza la perfección. Descubre los mejores cortes, preparados con maestría y pasión.
                         </p>
 
                         {/* Social Media */}
@@ -47,17 +47,24 @@ const Footer = () => {
                     {/* Quick Links */}
                     <div>
                         <h3 className="text-white text-lg font-semibold mb-4 tracking-wider">
-                            Quick Links
+                            Enlaces Rápidos
                         </h3>
                         <ul className="space-y-3">
-                            {['Home', 'Menu', 'About Us', 'Reservations', 'Gallery', 'Contact'].map((link) => (
-                                <li key={link}>
+                            {[
+                                { label: 'Inicio', href: '/' },
+                                { label: 'Menú', href: '/menu' },
+                                { label: 'Nosotros', href: '/about' },
+                                { label: 'Reservaciones', href: '/reservations' },
+                                { label: 'Galería', href: '/gallery' },
+                                { label: 'Contacto', href: '/contact' }
+                            ].map((link) => (
+                                <li key={link.label}>
                                     <a
-                                        href={`/${link.toLowerCase().replace(' ', '-')}`}
+                                        href={link.href}
                                         className="text-gray-400 hover:text-[#b8812e] transition-colors text-sm flex items-center group"
                                     >
                                         <span className="w-0 group-hover:w-4 h-0.5 bg-[#b8812e] transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                                        {link}
+                                        {link.label}
                                     </a>
                                 </li>
                             ))}
@@ -67,32 +74,32 @@ const Footer = () => {
                     {/* Hours */}
                     <div>
                         <h3 className="text-white text-lg font-semibold mb-4 tracking-wider">
-                            Hours
+                            Horarios
                         </h3>
                         <ul className="space-y-3 text-sm">
                             <li className="flex justify-between">
-                                <span className="text-gray-400">Monday - Thursday</span>
+                                <span className="text-gray-400">Lunes - Jueves</span>
                                 <span className="text-white font-light">5pm - 10pm</span>
                             </li>
                             <li className="flex justify-between">
-                                <span className="text-gray-400">Friday - Saturday</span>
+                                <span className="text-gray-400">Viernes - Sábado</span>
                                 <span className="text-white font-light">5pm - 11pm</span>
                             </li>
                             <li className="flex justify-between">
-                                <span className="text-gray-400">Sunday</span>
+                                <span className="text-gray-400">Domingo</span>
                                 <span className="text-white font-light">4pm - 9pm</span>
                             </li>
                         </ul>
                         <div className="mt-6 p-4 bg-white/5 border border-[#b8812e]/30 rounded">
-                            <p className="text-[#b8812e] text-xs font-semibold mb-1">HOLIDAY HOURS</p>
-                            <p className="text-gray-400 text-xs">Please call for special holiday hours</p>
+                            <p className="text-[#b8812e] text-xs font-semibold mb-1">HORARIOS ESPECIALES</p>
+                            <p className="text-gray-400 text-xs">Llama para horarios en días festivos</p>
                         </div>
                     </div>
 
                     {/* Contact */}
                     <div>
                         <h3 className="text-white text-lg font-semibold mb-4 tracking-wider">
-                            Contact
+                            Contacto
                         </h3>
                         <ul className="space-y-4 text-sm">
                             <li className="flex items-start space-x-3">
@@ -101,8 +108,8 @@ const Footer = () => {
                                     <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                                 <span className="text-gray-400">
-                                    123 Steakhouse Lane<br />
-                                    City, State 12345
+                                    123 Calle Principal<br />
+                                    Ciudad, Estado 12345
                                 </span>
                             </li>
                             <li className="flex items-center space-x-3">
@@ -131,14 +138,14 @@ const Footer = () => {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                         <p className="text-gray-400 text-sm text-center md:text-left">
-                            &copy; {currentYear} PrimeCut Steakhouse. All rights reserved.
+                            &copy; {currentYear} PrimeCut Steakhouse. Todos los derechos reservados.
                         </p>
                         <div className="flex space-x-6 text-sm">
                             <a href="/privacy" className="text-gray-400 hover:text-[#b8812e] transition-colors">
-                                Privacy Policy
+                                Política de Privacidad
                             </a>
                             <a href="/terms" className="text-gray-400 hover:text-[#b8812e] transition-colors">
-                                Terms of Service
+                                Términos de Servicio
                             </a>
                         </div>
                     </div>

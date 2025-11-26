@@ -77,37 +77,37 @@ const CheckoutPage = () => {
         const newErrors = {};
 
         // Personal Information
-        if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
-        if (!formData.email.trim()) newErrors.email = 'Email is required';
-        if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+        if (!formData.fullName.trim()) newErrors.fullName = 'El nombre completo es requerido';
+        if (!formData.email.trim()) newErrors.email = 'El correo electrónico es requerido';
+        if (!formData.phone.trim()) newErrors.phone = 'El número de teléfono es requerido';
 
         // Delivery Address (only if delivery selected)
         if (formData.deliveryType === 'delivery') {
-            if (!formData.street.trim()) newErrors.street = 'Street address is required';
-            if (!formData.city.trim()) newErrors.city = 'City is required';
-            if (!formData.state.trim()) newErrors.state = 'State is required';
-            if (!formData.zipCode.trim()) newErrors.zipCode = 'ZIP code is required';
+            if (!formData.street.trim()) newErrors.street = 'La dirección es requerida';
+            if (!formData.city.trim()) newErrors.city = 'La ciudad es requerida';
+            if (!formData.state.trim()) newErrors.state = 'El estado es requerido';
+            if (!formData.zipCode.trim()) newErrors.zipCode = 'El código postal es requerido';
         }
 
         // Payment Information
         if (!formData.cardNumber.trim()) {
-            newErrors.cardNumber = 'Card number is required';
+            newErrors.cardNumber = 'El número de tarjeta es requerido';
         } else if (!/^\d{16}$/.test(formData.cardNumber.replace(/\s/g, ''))) {
-            newErrors.cardNumber = 'Invalid card number';
+            newErrors.cardNumber = 'Número de tarjeta inválido';
         }
 
-        if (!formData.cardName.trim()) newErrors.cardName = 'Cardholder name is required';
+        if (!formData.cardName.trim()) newErrors.cardName = 'El nombre del titular es requerido';
 
         if (!formData.expiryDate.trim()) {
-            newErrors.expiryDate = 'Expiry date is required';
+            newErrors.expiryDate = 'La fecha de vencimiento es requerida';
         } else if (!/^\d{2}\/\d{2}$/.test(formData.expiryDate)) {
-            newErrors.expiryDate = 'Format: MM/YY';
+            newErrors.expiryDate = 'Formato: MM/AA';
         }
 
         if (!formData.cvv.trim()) {
-            newErrors.cvv = 'CVV is required';
+            newErrors.cvv = 'El CVV es requerido';
         } else if (!/^\d{3,4}$/.test(formData.cvv)) {
-            newErrors.cvv = 'Invalid CVV';
+            newErrors.cvv = 'CVV inválido';
         }
 
         setErrors(newErrors);
@@ -151,23 +151,23 @@ const CheckoutPage = () => {
 
                             {/* Success Message */}
                             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                                Order Placed Successfully!
+                                ¡Pedido Realizado con Éxito!
                             </h1>
                             <p className="text-neutral-400 text-lg mb-8">
-                                Thank you for your order. We'll send you a confirmation email shortly.
+                                Gracias por tu pedido. Te enviaremos un correo de confirmación en breve.
                             </p>
 
                             {/* Order Details */}
                             <div className="bg-neutral-800 border border-neutral-700 rounded-lg p-6 mb-8">
                                 <div className="flex justify-between items-center mb-3">
-                                    <span className="text-neutral-400">Order Total</span>
+                                    <span className="text-neutral-400">Total del Pedido</span>
                                     <span className="text-2xl font-bold" style={{ color: '#b8812e' }}>
                                         ${total.toFixed(2)}
                                     </span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-neutral-400">Estimated {formData.deliveryType === 'delivery' ? 'Delivery' : 'Pickup'}</span>
-                                    <span className="text-white font-semibold">45-60 minutes</span>
+                                    <span className="text-neutral-400">{formData.deliveryType === 'delivery' ? 'Entrega' : 'Recogida'} Estimada</span>
+                                    <span className="text-white font-semibold">45-60 minutos</span>
                                 </div>
                             </div>
 
@@ -179,7 +179,7 @@ const CheckoutPage = () => {
                                     className="flex-1 justify-center"
                                     onClick={() => navigate('/')}
                                 >
-                                    Return Home
+                                    Volver al Inicio
                                 </Button>
                                 <Button
                                     variant="secondary"
@@ -187,7 +187,7 @@ const CheckoutPage = () => {
                                     className="flex-1 justify-center"
                                     onClick={() => navigate('/menu')}
                                 >
-                                    Continue Shopping
+                                    Seguir Comprando
                                 </Button>
                             </div>
                         </Card>
@@ -205,9 +205,9 @@ const CheckoutPage = () => {
             <main className="flex-grow">
                 {/* Hero Section */}
                 <HeroSection
-                    badge="Final Step"
-                    title="Checkout"
-                    subtitle="Complete your order and enjoy our finest dishes"
+                    badge="Último Paso"
+                    title="Finalizar Compra"
+                    subtitle="Completa tu pedido y disfruta de nuestros mejores platillos"
                 />
 
                 {/* Checkout Form */}
@@ -225,33 +225,33 @@ const CheckoutPage = () => {
                                                 <User className="w-5 h-5 text-primary-500" />
                                             </div>
                                             <h2 className="text-2xl font-bold text-white tracking-tight">
-                                                Personal Information
+                                                Información Personal
                                             </h2>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <Input
-                                                label="Full Name"
+                                                label="Nombre Completo"
                                                 name="fullName"
                                                 value={formData.fullName}
                                                 onChange={handleChange}
                                                 error={errors.fullName}
                                                 required
-                                                placeholder="John Doe"
+                                                placeholder="Juan Pérez"
                                             />
                                             <Input
-                                                label="Email Address"
+                                                label="Correo Electrónico"
                                                 name="email"
                                                 type="email"
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 error={errors.email}
                                                 required
-                                                placeholder="john@example.com"
+                                                placeholder="juan@ejemplo.com"
                                             />
                                             <div className="md:col-span-2">
                                                 <Input
-                                                    label="Phone Number"
+                                                    label="Número de Teléfono"
                                                     name="phone"
                                                     type="tel"
                                                     value={formData.phone}
@@ -271,7 +271,7 @@ const CheckoutPage = () => {
                                                 <MapPin className="w-5 h-5 text-primary-500" />
                                             </div>
                                             <h2 className="text-2xl font-bold text-white tracking-tight">
-                                                Delivery Options
+                                                Opciones de Entrega
                                             </h2>
                                         </div>
 
@@ -285,8 +285,8 @@ const CheckoutPage = () => {
                                                         : 'border-neutral-700 hover:border-neutral-600'
                                                     }`}
                                             >
-                                                <p className="text-white font-semibold mb-1">Delivery</p>
-                                                <p className="text-neutral-400 text-sm">45-60 minutes</p>
+                                                <p className="text-white font-semibold mb-1">Entrega a Domicilio</p>
+                                                <p className="text-neutral-400 text-sm">45-60 minutos</p>
                                             </button>
                                             <button
                                                 type="button"
@@ -296,8 +296,8 @@ const CheckoutPage = () => {
                                                         : 'border-neutral-700 hover:border-neutral-600'
                                                     }`}
                                             >
-                                                <p className="text-white font-semibold mb-1">Pickup</p>
-                                                <p className="text-neutral-400 text-sm">30-45 minutes</p>
+                                                <p className="text-white font-semibold mb-1">Recoger en Tienda</p>
+                                                <p className="text-neutral-400 text-sm">30-45 minutos</p>
                                             </button>
                                         </div>
 
@@ -305,42 +305,42 @@ const CheckoutPage = () => {
                                         {formData.deliveryType === 'delivery' && (
                                             <div className="grid grid-cols-1 gap-6">
                                                 <Input
-                                                    label="Street Address"
+                                                    label="Dirección"
                                                     name="street"
                                                     value={formData.street}
                                                     onChange={handleChange}
                                                     error={errors.street}
                                                     required
-                                                    placeholder="123 Main St, Apt 4B"
+                                                    placeholder="Av. Principal 123, Depto. 4B"
                                                 />
                                                 <div className="grid grid-cols-2 gap-6">
                                                     <Input
-                                                        label="City"
+                                                        label="Ciudad"
                                                         name="city"
                                                         value={formData.city}
                                                         onChange={handleChange}
                                                         error={errors.city}
                                                         required
-                                                        placeholder="New York"
+                                                        placeholder="Ciudad de México"
                                                     />
                                                     <Input
-                                                        label="State"
+                                                        label="Estado"
                                                         name="state"
                                                         value={formData.state}
                                                         onChange={handleChange}
                                                         error={errors.state}
                                                         required
-                                                        placeholder="NY"
+                                                        placeholder="CDMX"
                                                     />
                                                 </div>
                                                 <Input
-                                                    label="ZIP Code"
+                                                    label="Código Postal"
                                                     name="zipCode"
                                                     value={formData.zipCode}
                                                     onChange={handleChange}
                                                     error={errors.zipCode}
                                                     required
-                                                    placeholder="10001"
+                                                    placeholder="01000"
                                                 />
                                             </div>
                                         )}
@@ -348,14 +348,14 @@ const CheckoutPage = () => {
                                         {/* Special Instructions */}
                                         <div className="mt-6">
                                             <label className="block text-sm font-medium text-neutral-300 mb-2">
-                                                Special Instructions (Optional)
+                                                Instrucciones Especiales (Opcional)
                                             </label>
                                             <textarea
                                                 name="specialInstructions"
                                                 value={formData.specialInstructions}
                                                 onChange={handleChange}
                                                 rows="3"
-                                                placeholder="Add any special requests or delivery instructions..."
+                                                placeholder="Agrega cualquier solicitud especial o instrucciones de entrega..."
                                                 className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-lg text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 resize-none"
                                             />
                                         </div>
@@ -368,13 +368,13 @@ const CheckoutPage = () => {
                                                 <CreditCard className="w-5 h-5 text-primary-500" />
                                             </div>
                                             <h2 className="text-2xl font-bold text-white tracking-tight">
-                                                Payment Information
+                                                Información de Pago
                                             </h2>
                                         </div>
 
                                         <div className="space-y-6">
                                             <Input
-                                                label="Card Number"
+                                                label="Número de Tarjeta"
                                                 name="cardNumber"
                                                 value={formData.cardNumber}
                                                 onChange={handleChange}
@@ -384,23 +384,23 @@ const CheckoutPage = () => {
                                                 maxLength="19"
                                             />
                                             <Input
-                                                label="Cardholder Name"
+                                                label="Nombre del Titular"
                                                 name="cardName"
                                                 value={formData.cardName}
                                                 onChange={handleChange}
                                                 error={errors.cardName}
                                                 required
-                                                placeholder="JOHN DOE"
+                                                placeholder="JUAN PÉREZ"
                                             />
                                             <div className="grid grid-cols-2 gap-6">
                                                 <Input
-                                                    label="Expiry Date"
+                                                    label="Fecha de Vencimiento"
                                                     name="expiryDate"
                                                     value={formData.expiryDate}
                                                     onChange={handleChange}
                                                     error={errors.expiryDate}
                                                     required
-                                                    placeholder="MM/YY"
+                                                    placeholder="MM/AA"
                                                     maxLength="5"
                                                 />
                                                 <Input
@@ -420,10 +420,10 @@ const CheckoutPage = () => {
                                                 <Lock className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
                                                 <div className="flex-1">
                                                     <p className="text-white text-sm font-semibold mb-1">
-                                                        Secure Payment
+                                                        Pago Seguro
                                                     </p>
                                                     <p className="text-neutral-400 text-xs">
-                                                        Your payment information is encrypted and secure. We never store your card details.
+                                                        Tu información de pago está encriptada y segura. Nunca almacenamos los detalles de tu tarjeta.
                                                     </p>
                                                 </div>
                                             </div>
@@ -436,7 +436,7 @@ const CheckoutPage = () => {
                                     <div className="sticky top-28 space-y-6">
                                         <Card className="p-6">
                                             <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">
-                                                Order Summary
+                                                Resumen del Pedido
                                             </h2>
 
                                             {/* Cart Items */}
@@ -451,7 +451,7 @@ const CheckoutPage = () => {
                                                                 {item.name}
                                                             </h4>
                                                             <p className="text-neutral-400 text-xs">
-                                                                Qty: {item.quantity}
+                                                                Cant: {item.quantity}
                                                             </p>
                                                             <p className="text-primary-500 text-sm font-semibold">
                                                                 ${(item.price * item.quantity).toFixed(2)}
@@ -468,12 +468,12 @@ const CheckoutPage = () => {
                                                     <span>${subtotal.toFixed(2)}</span>
                                                 </div>
                                                 <div className="flex justify-between text-neutral-300">
-                                                    <span>Tax (8%)</span>
+                                                    <span>Impuestos (8%)</span>
                                                     <span>${tax.toFixed(2)}</span>
                                                 </div>
                                                 {formData.deliveryType === 'delivery' && (
                                                     <div className="flex justify-between text-neutral-300">
-                                                        <span>Delivery Fee</span>
+                                                        <span>Costo de Envío</span>
                                                         <span>${deliveryFee.toFixed(2)}</span>
                                                     </div>
                                                 )}
@@ -498,12 +498,12 @@ const CheckoutPage = () => {
                                                 {isProcessing ? (
                                                     <>
                                                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                                        Processing...
+                                                        Procesando...
                                                     </>
                                                 ) : (
                                                     <>
                                                         <Lock className="w-5 h-5" />
-                                                        Place Order
+                                                        Realizar Pedido
                                                     </>
                                                 )}
                                             </Button>
@@ -514,7 +514,7 @@ const CheckoutPage = () => {
                                                 className="w-full mt-3 px-6 py-3 text-neutral-400 hover:text-white transition-colors text-sm font-medium inline-flex items-center justify-center gap-2"
                                             >
                                                 <ArrowLeft className="w-4 h-4" />
-                                                Back to Cart
+                                                Volver al Carrito
                                             </button>
                                         </Card>
                                     </div>

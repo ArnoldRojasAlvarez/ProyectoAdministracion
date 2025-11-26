@@ -13,7 +13,6 @@ const CATEGORY_MAP = {
 
 // 2. Función para transformar los datos de la API
 const transformData = (apiData) => {
-    // Inicializa un objeto con todas las categorías como arrays vacíos
     const groupedItems = {
         steaks: [],
         appetizers: [],
@@ -22,27 +21,23 @@ const transformData = (apiData) => {
         drinks: []
     };
 
-    // Itera sobre cada producto que vino de la API
     for (const item of apiData) {
-        // Traduce el "tipo" de la API (ej. "Postre") al id del frontend (ej. "desserts")
         const frontendCategory = CATEGORY_MAP[item.tipo];
 
-        // Si la categoría existe en nuestro mapeo...
         if (frontendCategory) {
-            // ...crea el nuevo objeto de item con los nombres que el frontend espera
             const newItem = {
                 id: item.idproducto,
                 name: item.nombre,
                 description: item.descripcion,
                 price: `$${item.precio}`,
                 available: item.disponible,
+                img: item.img || null,  // ← Add this line
             };
-            
-            // Agrega el item transformado a su categoría correspondiente
+
             groupedItems[frontendCategory].push(newItem);
         }
     }
-    
+
     return groupedItems;
 };
 
@@ -58,7 +53,7 @@ export const useMenuData = () => {
         const fetchMenuData = async () => {
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/productos/');
-                
+
                 if (!response.ok) {
                     throw new Error(`Error HTTP: ${response.status}`);
                 }
@@ -66,10 +61,10 @@ export const useMenuData = () => {
                 const data = await response.json();
                 console.log('Raw API Data:', data);
                 console.log('Sample item tipo:', data[0]?.tipo);
-                
+
                 const transformed = transformData(data);
                 console.log('Transformed Data:', transformed);
-                
+
                 setMenuItems(transformed);
 
             } catch (e) {

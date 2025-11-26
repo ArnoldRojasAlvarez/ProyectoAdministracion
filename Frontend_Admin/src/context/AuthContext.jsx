@@ -11,14 +11,14 @@ const MOCK_USERS = [
         username: 'admin',
         password: 'admin123',
         role: 'admin',
-        name: 'Admin'
+        name: 'Grettel'
     },
     {
         id: 2,
         username: 'user',
         password: 'user123',
         role: 'customer',
-        name: 'Customer'
+        name: 'Camila'
     }
 ];
 
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
             return { success: true };
         }
 
-        return { success: false, error: 'Invalid username or password' };
+        return { success: false, error: 'Usuario o contraseña incorrectos' };
     };
 
     const logout = () => {
