@@ -60,7 +60,12 @@ const LandingPage = () => {
 
                 {/* Content with High Z-Index */}
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                    <div className="max-w-4xl">
+                    {/* CAMBIOS AQUÍ PARA CENTRAR:
+                        1. mx-auto: Centra el bloque horizontalmente.
+                        2. text-center: Centra el texto dentro del bloque.
+                        3. flex flex-col items-center: Alinea elementos flex (como la línea y el badge) al centro.
+                    */}
+                    <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
                         {/* Accent Line */}
                         <div className="w-16 h-1 bg-primary-500 mb-6 rounded-full" />
 
@@ -88,18 +93,19 @@ const LandingPage = () => {
                         </p>
 
                         {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        {/* CAMBIO: justify-center para centrar los botones horizontalmente */}
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <a
                                 href="/menu"
                                 className="
-                group inline-flex items-center justify-center gap-3 px-8 py-4
-                bg-primary-500 hover:bg-primary-600
-                text-white font-medium text-base
-                rounded-lg shadow-lg shadow-primary-500/25
-                transition-all duration-200
-                focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-950
-                active:scale-[0.98]
-                "
+                                group inline-flex items-center justify-center gap-3 px-8 py-4
+                                bg-primary-500 hover:bg-primary-600
+                                text-white font-medium text-base
+                                rounded-lg shadow-lg shadow-primary-500/25
+                                transition-all duration-200
+                                focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-950
+                                active:scale-[0.98] cursor-pointer
+                                "
                             >
                                 Explorar Menú
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -108,13 +114,14 @@ const LandingPage = () => {
                             <a
                                 href="/calendar"
                                 className="
-                group inline-flex items-center justify-center gap-3 px-8 py-4
-                bg-transparent hover:bg-neutral-800
-                text-neutral-300 hover:text-white font-medium text-base
-                rounded-lg border border-neutral-700 hover:border-neutral-600
-                tansition-all duration-200
-                focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 focus:ring-offset-neutral-950
-                "
+                                group inline-flex items-center justify-center gap-3 px-8 py-4
+                                bg-transparent hover:bg-neutral-800
+                                text-neutral-300 hover:text-white font-medium text-base
+                                rounded-lg border border-neutral-700 hover:border-neutral-600
+                                tansition-all duration-200
+                                focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 focus:ring-offset-neutral-950
+                                cursor-pointer
+                                "
                             >
                                 Ver Eventos
                             </a>

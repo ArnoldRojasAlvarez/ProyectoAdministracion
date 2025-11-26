@@ -141,13 +141,18 @@ const MenuPage = () => {
                                     <button
                                         key={category.id}
                                         onClick={() => setActiveCategory(category.id)}
+                                        /* CAMBIOS AQUÍ:
+                                           1. Agregado 'cursor-pointer'
+                                           2. Agregado 'hover:bg-primary-600' al estado activo
+                                           3. El estado inactivo ya tenía 'hover:bg-neutral-800'
+                                        */
                                         className={`
                       flex items-center gap-2 px-6 py-3 
                       rounded-lg whitespace-nowrap
                       font-medium text-sm tracking-wider uppercase
-                      transition-all duration-200
+                      transition-all duration-200 cursor-pointer
                       ${activeCategory === category.id
-                                                ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25'
+                                                ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25 hover:bg-primary-600'
                                                 : 'bg-transparent text-neutral-400 hover:text-white hover:bg-neutral-800 border border-neutral-700 hover:border-neutral-600'
                                             }
                     `}
@@ -232,11 +237,16 @@ const MenuPage = () => {
 
                                             {/* Add to Cart Button */}
                                             {item.available && (
+                                                /* CAMBIOS AQUÍ:
+                                                   1. Agregado 'cursor-pointer'
+                                                   2. Agregado 'hover:bg-primary-600' para cambiar color
+                                                   3. Agregado 'transition-colors'
+                                                */
                                                 <Button
                                                     variant="primary"
                                                     size="sm"
                                                     onClick={() => addToCart(item)}
-                                                    className="group"
+                                                    className="group cursor-pointer bg-neutral-800 hover:bg-neutral-700 transition-colors"
                                                 >
                                                     <ShoppingCart className="w-4 h-4" />
                                                     <span className="hidden sm:inline">

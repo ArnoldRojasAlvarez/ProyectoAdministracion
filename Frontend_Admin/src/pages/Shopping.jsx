@@ -65,7 +65,7 @@ const ShoppingPage = () => {
                                     className={`p-12 md:p-16 transition-all duration-1000 ${isVisible['empty-cart']
                                             ? 'opacity-100 translate-y-0'
                                             : 'opacity-0 translate-y-10'
-                                        }`}
+                                    }`}
                                 >
                                     {/* Icon */}
                                     <div className="w-24 h-24 mx-auto mb-8 bg-primary-500/10 border-2 border-primary-500/20 rounded-full flex items-center justify-center">
@@ -89,7 +89,8 @@ const ShoppingPage = () => {
                                     <Button
                                         variant="primary"
                                         size="lg"
-                                        className="inline-flex items-center gap-2"
+                                        /* CAMBIO: Agregado cursor-pointer */
+                                        className="inline-flex items-center gap-2 cursor-pointer"
                                         onClick={() => window.location.href = '/menu'}
                                     >
                                         Explorar Nuestro Menú
@@ -108,7 +109,7 @@ const ShoppingPage = () => {
                                     className={`lg:col-span-2 space-y-4 transition-all duration-1000 ${isVisible['cart-content']
                                             ? 'opacity-100 translate-x-0'
                                             : 'opacity-0 -translate-x-10'
-                                        }`}
+                                    }`}
                                 >
                                     {/* Section Header */}
                                     <div className="flex items-center justify-between mb-6">
@@ -117,7 +118,8 @@ const ShoppingPage = () => {
                                         </h2>
                                         <a
                                             href="/menu"
-                                            className="text-primary-500 hover:text-white transition-colors text-sm font-medium inline-flex items-center gap-2"
+                                            /* CAMBIO: Agregado cursor-pointer explícito */
+                                            className="text-primary-500 hover:text-white transition-colors text-sm font-medium inline-flex items-center gap-2 cursor-pointer"
                                         >
                                             <Plus className="w-4 h-4" />
                                             Agregar Más
@@ -161,7 +163,8 @@ const ShoppingPage = () => {
                                                         </div>
                                                         <button
                                                             onClick={() => removeItem(item.id)}
-                                                            className="p-2 text-neutral-400 hover:text-error hover:bg-error/10 rounded-lg transition-all duration-200"
+                                                            /* CAMBIO: Agregado cursor-pointer */
+                                                            className="p-2 text-neutral-400 hover:text-error hover:bg-error/10 rounded-lg transition-all duration-200 cursor-pointer"
                                                             aria-label="Eliminar artículo"
                                                         >
                                                             <Trash2 className="w-5 h-5" />
@@ -174,7 +177,8 @@ const ShoppingPage = () => {
                                                         <div className="flex items-center gap-3">
                                                             <button
                                                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                                className="w-8 h-8 bg-neutral-800 hover:bg-primary-500 border border-neutral-700 hover:border-primary-500 rounded-lg flex items-center justify-center text-white transition-all duration-200"
+                                                                /* CAMBIO: Agregado cursor-pointer */
+                                                                className="w-8 h-8 bg-neutral-800 hover:bg-primary-500 border border-neutral-700 hover:border-primary-500 rounded-lg flex items-center justify-center text-white transition-all duration-200 cursor-pointer"
                                                             >
                                                                 <Minus className="w-4 h-4" />
                                                             </button>
@@ -183,7 +187,8 @@ const ShoppingPage = () => {
                                                             </span>
                                                             <button
                                                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                                className="w-8 h-8 bg-neutral-800 hover:bg-primary-500 border border-neutral-700 hover:border-primary-500 rounded-lg flex items-center justify-center text-white transition-all duration-200"
+                                                                /* CAMBIO: Agregado cursor-pointer */
+                                                                className="w-8 h-8 bg-neutral-800 hover:bg-primary-500 border border-neutral-700 hover:border-primary-500 rounded-lg flex items-center justify-center text-white transition-all duration-200 cursor-pointer"
                                                             >
                                                                 <Plus className="w-4 h-4" />
                                                             </button>
@@ -192,11 +197,11 @@ const ShoppingPage = () => {
                                                         {/* Price */}
                                                         <div className="text-right">
                                                             <p className="font-bold text-xl" style={{ color: '#b8812e' }}>
-                                                                ${(item.price * item.quantity).toFixed(2)}
+                                                                ₡{(item.price * item.quantity).toFixed(2)}
                                                             </p>
                                                             {item.quantity > 1 && (
                                                                 <p className="text-neutral-500 text-xs">
-                                                                    ${item.price.toFixed(2)} c/u
+                                                                    ₡{item.price.toFixed(2)} c/u
                                                                 </p>
                                                             )}
                                                         </div>
@@ -212,7 +217,7 @@ const ShoppingPage = () => {
                                     className={`transition-all duration-1000 ${isVisible['cart-content']
                                             ? 'opacity-100 translate-x-0'
                                             : 'opacity-0 translate-x-10'
-                                        }`}
+                                    }`}
                                 >
                                     <div className="sticky top-28 space-y-6">
                                         {/* Summary Card */}
@@ -225,17 +230,17 @@ const ShoppingPage = () => {
                                             <div className="space-y-4 mb-6">
                                                 <div className="flex justify-between text-neutral-300">
                                                     <span>Subtotal</span>
-                                                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                                                    <span className="font-semibold">₡{subtotal.toFixed(2)}</span>
                                                 </div>
                                                 <div className="flex justify-between text-neutral-300">
                                                     <span>Impuesto (8%)</span>
-                                                    <span className="font-semibold">${tax.toFixed(2)}</span>
+                                                    <span className="font-semibold">₡{tax.toFixed(2)}</span>
                                                 </div>
                                                 <div className="border-t border-neutral-700 pt-4">
                                                     <div className="flex justify-between items-center">
                                                         <span className="text-white text-lg font-bold">Total</span>
                                                         <span className="text-2xl font-bold" style={{ color: '#b8812e' }}>
-                                                            ${total.toFixed(2)}
+                                                            ₡{total.toFixed(2)}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -245,7 +250,8 @@ const ShoppingPage = () => {
                                             <Button
                                                 variant="primary"
                                                 size="lg"
-                                                className="w-full mb-4 justify-center"
+                                                /* CAMBIO: Agregado cursor-pointer */
+                                                className="w-full mb-4 justify-center cursor-pointer bg-neutral-800 hover:bg-neutral-700"
                                                 onClick={() => window.location.href = '/checkout'}
                                             >
                                                 Proceder al Pago
@@ -256,7 +262,8 @@ const ShoppingPage = () => {
                                             <Button
                                                 variant="secondary"
                                                 size="md"
-                                                className="w-full justify-center"
+                                                /* CAMBIO: Agregado cursor-pointer */
+                                                className="w-full justify-center cursor-pointer"
                                                 onClick={() => window.location.href = '/menu'}
                                             >
                                                 Seguir Comprando

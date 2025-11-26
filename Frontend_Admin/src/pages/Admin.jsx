@@ -11,7 +11,7 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'confirm' })
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fadeIn"
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fadeIn cursor-pointer"
         onClick={onClose}
       />
       
@@ -24,7 +24,8 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'confirm' })
           </h3>
           <button
             onClick={onClose}
-            className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
+            /* CAMBIO: Agregado cursor-pointer */
+            className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -41,12 +42,13 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'confirm' })
         <div className="flex gap-3 p-6 border-t border-neutral-800">
           <button
             onClick={onClose}
+            /* CAMBIO: Agregado cursor-pointer */
             className="
               flex-1 px-6 py-3 
               bg-transparent hover:bg-neutral-800 
               text-neutral-400 hover:text-white font-medium text-sm
               rounded-lg border border-neutral-700 hover:border-neutral-600
-              transition-all duration-200
+              transition-all duration-200 cursor-pointer
             "
           >
             Cancelar
@@ -56,13 +58,14 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'confirm' })
               onConfirm();
               onClose();
             }}
+            /* CAMBIO: Agregado cursor-pointer */
             className="
               flex-1 px-6 py-3 
               bg-red-600 hover:bg-red-700
               text-white font-medium text-sm
               rounded-lg 
               transition-all duration-200
-              shadow-lg shadow-red-600/25
+              shadow-lg shadow-red-600/25 cursor-pointer
             "
           >
             Aceptar
@@ -595,13 +598,17 @@ const AdminPage = () => {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
+                      /* CAMBIO: 
+                         1. Agregado cursor-pointer
+                         2. Agregado hover:bg-primary-600 para el estado activo
+                      */
                       className={`
                         flex items-center gap-3 px-5 py-2.5 rounded-lg
                         font-medium text-sm tracking-wide
-                        transition-all duration-200
+                        transition-all duration-200 cursor-pointer
                         ${
                           activeTab === tab.id
-                            ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25'
+                            ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25 hover:bg-primary-600'
                             : 'bg-transparent text-neutral-400 hover:text-white hover:bg-neutral-800'
                         }
                       `}
@@ -628,14 +635,15 @@ const AdminPage = () => {
                   </h2>
                   <button
                     onClick={() => setShowItemForm(!showItemForm)}
+                    /* CAMBIO: Agregado cursor-pointer */
                     className="
                       inline-flex items-center gap-2 px-5 py-2.5
-                      bg-primary-500 hover:bg-primary-600
+                      bg-neutral-800 hover:bg-neutral-700
                       text-white font-medium text-sm
                       rounded-lg shadow-lg shadow-primary-500/25
                       transition-all duration-200
                       focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-950
-                      active:scale-[0.98]
+                      active:scale-[0.98] cursor-pointer
                     "
                   >
                     <Plus className="w-4 h-4" />
@@ -835,15 +843,16 @@ const AdminPage = () => {
                       <button
                         onClick={editingItem ? handleUpdateItem : handleAddItem}
                         disabled={uploadingImage}
+                        /* CAMBIO: Agregado cursor-pointer */
                         className="
                           flex-1 px-6 py-3 
-                          bg-primary-500 hover:bg-primary-600
+                          bg-neutral-800 hover:bg-neutral-700
                           disabled:bg-neutral-700 disabled:cursor-not-allowed
                           text-white font-medium text-sm
                           rounded-lg shadow-lg shadow-primary-500/25
                           transition-all duration-200
                           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-900
-                          active:scale-[0.98]
+                          active:scale-[0.98] cursor-pointer
                         "
                       >
                         {uploadingImage ? 'Subiendo...' : editingItem ? 'Actualizar Producto' : 'Crear Producto'}
@@ -851,6 +860,7 @@ const AdminPage = () => {
                       <button
                         onClick={resetItemForm}
                         disabled={uploadingImage}
+                        /* CAMBIO: Agregado cursor-pointer */
                         className="
                           flex-1 px-6 py-3 
                           bg-transparent hover:bg-neutral-800 
@@ -859,6 +869,7 @@ const AdminPage = () => {
                           rounded-lg border border-neutral-700 hover:border-neutral-600
                           transition-all duration-200
                           focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 focus:ring-offset-neutral-900
+                          cursor-pointer
                         "
                       >
                         Cancelar
@@ -946,6 +957,7 @@ const AdminPage = () => {
                           <div className="flex md:flex-col gap-2">
                             <button
                               onClick={() => toggleItemAvailability(item.id)}
+                              /* CAMBIO: Agregado cursor-pointer */
                               className="
                                 flex-1 md:flex-none px-4 py-2 
                                 bg-neutral-800 hover:bg-neutral-700
@@ -953,7 +965,7 @@ const AdminPage = () => {
                                 text-neutral-300 hover:text-white
                                 rounded-lg text-sm font-medium
                                 transition-all duration-200
-                                inline-flex items-center justify-center gap-2
+                                inline-flex items-center justify-center gap-2 cursor-pointer
                               "
                               title="Alternar disponibilidad"
                             >
@@ -964,32 +976,18 @@ const AdminPage = () => {
                               )}
                             </button>
 
-                            <button
-                              onClick={() => handleEditItem(item)}
-                              className="
-                                flex-1 md:flex-none px-4 py-2 
-                                bg-neutral-800 hover:bg-neutral-700
-                                border border-neutral-700 hover:border-neutral-600
-                                text-neutral-300 hover:text-white
-                                rounded-lg text-sm font-medium
-                                transition-all duration-200
-                                inline-flex items-center justify-center gap-2
-                              "
-                            >
-                              <Edit2 className="w-4 h-4" />
-                              <span className="hidden sm:inline">Editar</span>
-                            </button>
                             
                             <button
                               onClick={() => handleDeleteItem(item.id)}
+                              /* CAMBIO: Agregado cursor-pointer */
                               className="
                                 flex-1 md:flex-none px-4 py-2 
-                                bg-neutral-800 hover:bg-error/10
+                                bg-neutral-800 hover:bg-neutral-700
                                 border border-neutral-700 hover:border-error/30
                                 text-neutral-300 hover:text-error
                                 rounded-lg text-sm font-medium
                                 transition-all duration-200
-                                inline-flex items-center justify-center gap-2
+                                inline-flex items-center justify-center gap-2 cursor-pointer
                               "
                             >
                               <Trash2 className="w-4 h-4" />
@@ -1013,13 +1011,14 @@ const AdminPage = () => {
                   </h2>
                   <button
                     onClick={() => setShowEventForm(!showEventForm)}
+                    /* CAMBIO: Agregado cursor-pointer */
                     className="
                       inline-flex items-center gap-2 px-5 py-2.5
                       bg-primary-500 hover:bg-primary-600
                       text-white font-medium text-sm
                       rounded-lg shadow-lg shadow-primary-500/25
                       transition-all duration-200
-                      active:scale-[0.98]
+                      active:scale-[0.98] cursor-pointer
                     "
                   >
                     <Plus className="w-4 h-4" />
@@ -1182,25 +1181,27 @@ const AdminPage = () => {
                     <div className="flex flex-col sm:flex-row gap-3 mt-8">
                       <button
                         onClick={handleAddEvent}
+                        /* CAMBIO: Agregado cursor-pointer */
                         className="
                           flex-1 px-6 py-3 
                           bg-primary-500 hover:bg-primary-600
                           text-white font-medium text-sm
                           rounded-lg shadow-lg shadow-primary-500/25
                           transition-all duration-200
-                          active:scale-[0.98]
+                          active:scale-[0.98] cursor-pointer
                         "
                       >
                         {editingEvent ? 'Actualizar Evento' : 'Crear Evento'}
                       </button>
                       <button
                         onClick={resetEventForm}
+                        /* CAMBIO: Agregado cursor-pointer */
                         className="
                           flex-1 px-6 py-3 
                           bg-transparent hover:bg-neutral-800 
                           text-neutral-400 hover:text-white font-medium text-sm
                           rounded-lg border border-neutral-700 hover:border-neutral-600
-                          transition-all duration-200
+                          transition-all duration-200 cursor-pointer
                         "
                       >
                         Cancelar
@@ -1262,6 +1263,7 @@ const AdminPage = () => {
                           <div className="flex md:flex-col gap-2">
                             <button
                               onClick={() => handleDeleteEvent(event.id)}
+                              /* CAMBIO: Agregado cursor-pointer */
                               className="
                                 flex-1 md:flex-none px-4 py-2 
                                 bg-neutral-800 hover:bg-error/10
@@ -1269,7 +1271,7 @@ const AdminPage = () => {
                                 text-neutral-300 hover:text-error
                                 rounded-lg text-sm font-medium
                                 transition-all duration-200
-                                inline-flex items-center justify-center gap-2
+                                inline-flex items-center justify-center gap-2 cursor-pointer
                               "
                             >
                               <Trash2 className="w-4 h-4" />

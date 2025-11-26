@@ -97,7 +97,8 @@ const LoginPage = () => {
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white transition-colors"
+                                            /* CAMBIO: Agregado cursor-pointer */
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white transition-colors cursor-pointer"
                                             aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                                         >
                                             {showPassword ? (
@@ -113,7 +114,8 @@ const LoginPage = () => {
                                     type="submit"
                                     variant="primary"
                                     size="lg"
-                                    className="w-full justify-center"
+                                    /* CAMBIO: Agregado cursor-pointer */
+                                    className="w-full justify-center cursor-pointer"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (

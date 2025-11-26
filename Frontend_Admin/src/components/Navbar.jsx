@@ -37,7 +37,11 @@ const Navbar = () => {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4 sm:py-5">
                     {/* Logo */}
-                    <a href="/" className="flex items-center space-x-2 group">
+                    <a 
+                        href="/" 
+                        /* CAMBIO: Agregado cursor-pointer */
+                        className="flex items-center space-x-2 group cursor-pointer"
+                    >
                         <div className="relative">
                             <div className="absolute inset-0 bg-[#b8812e] blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
                             <svg
@@ -64,7 +68,8 @@ const Navbar = () => {
                             <a
                                 key={link.name}
                                 href={link.href}
-                                className="relative text-white text-sm tracking-wider font-light group"
+                                /* CAMBIO: Agregado cursor-pointer y hover:text-[#b8812e] */
+                                className="relative text-white text-sm tracking-wider font-light group cursor-pointer hover:text-[#b8812e] transition-colors"
                             >
                                 {link.name}
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#b8812e] transition-all duration-300 group-hover:w-full" />
@@ -74,12 +79,10 @@ const Navbar = () => {
                         {/* User Profile / Login */}
                         {user ? (
                             <div className="flex items-center gap-2">
-                                <span className="text-white text-sm tracking-wider font-light">
-                                    {user.name}
-                                </span>
                                 <button
                                     onClick={logout}
-                                    className="p-1.5 text-neutral-400 hover:text-[#b8812e] transition-colors"
+                                    /* CAMBIO: Agregado cursor-pointer */
+                                    className="p-1.5 text-neutral-400 hover:text-[#b8812e] transition-colors group-hover:w-full cursor-pointer"
                                     title="Cerrar sesión"
                                 >
                                     <LogOut className="w-4 h-4" />
@@ -88,7 +91,8 @@ const Navbar = () => {
                         ) : (
                             <a
                                 href="/login"
-                                className="relative text-white text-sm tracking-wider font-light group"
+                                /* CAMBIO: Agregado cursor-pointer y hover:text-[#b8812e] */
+                                className="relative text-white text-sm tracking-wider font-light group cursor-pointer hover:text-[#b8812e] transition-colors"
                             >
                                 INGRESAR
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#b8812e] transition-all duration-300 group-hover:w-full" />
@@ -98,7 +102,8 @@ const Navbar = () => {
                         {/* Shopping Cart Icon */}
                         <a
                             href="/Shopping"
-                            className="relative text-white hover:text-[#b8812e] transition-colors group"
+                            /* CAMBIO: Agregado cursor-pointer */
+                            className="relative text-white hover:text-[#b8812e] transition-colors group cursor-pointer"
                             aria-label="Carrito de Compras"
                         >
                             <svg
@@ -124,7 +129,8 @@ const Navbar = () => {
                         {/* Mobile Cart Icon */}
                         <a
                             href="/cart"
-                            className="relative text-white hover:text-[#b8812e] transition-colors"
+                            /* CAMBIO: Agregado cursor-pointer */
+                            className="relative text-white hover:text-[#b8812e] transition-colors cursor-pointer"
                             aria-label="Carrito de Compras"
                         >
                             <svg
@@ -146,7 +152,8 @@ const Navbar = () => {
                         {/* Hamburger Menu Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="text-white p-2 hover:text-[#b8812e] transition-colors"
+                            /* CAMBIO: Agregado cursor-pointer */
+                            className="text-white p-2 hover:text-[#b8812e] transition-colors cursor-pointer"
                             aria-label="Abrir menú"
                         >
                             <svg
@@ -179,8 +186,9 @@ const Navbar = () => {
                             <a
                                 key={link.name}
                                 href={link.href}
+                                /* CAMBIO: Agregado cursor-pointer */
                                 className="block text-white text-sm tracking-wider font-light hover:text-[#b8812e] 
-                                transition-colors py-2 animate-slideInLeft"
+                                transition-colors py-2 animate-slideInLeft cursor-pointer"
                                 style={{ animationDelay: `${index * 0.1}s` }}
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
@@ -199,7 +207,8 @@ const Navbar = () => {
                                                 logout();
                                                 setIsMobileMenuOpen(false);
                                             }}
-                                            className="p-2 text-neutral-400 hover:text-[#b8812e] transition-colors"
+                                            /* CAMBIO: Agregado cursor-pointer */
+                                            className="p-2 text-neutral-400 hover:text-[#b8812e] transition-colors cursor-pointer"
                                             title="Cerrar sesión"
                                         >
                                             <LogOut className="w-4 h-4" />
@@ -209,7 +218,8 @@ const Navbar = () => {
                             ) : (
                                 <a
                                     href="/login"
-                                    className="block text-white text-sm tracking-wider font-light hover:text-[#b8812e] transition-colors py-2"
+                                    /* CAMBIO: Agregado cursor-pointer */
+                                    className="block text-white text-sm tracking-wider font-light hover:text-[#b8812e] transition-colors py-2 cursor-pointer"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     INGRESAR

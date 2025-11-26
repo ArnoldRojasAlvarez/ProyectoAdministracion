@@ -120,7 +120,8 @@ const CalendarPage = () => {
                                     <div className="flex items-center justify-between mb-8">
                                         <button
                                             onClick={goToPreviousMonth}
-                                            className="p-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 rounded-lg transition-all duration-200 group"
+                                            /* CAMBIO: Agregado cursor-pointer */
+                                            className="p-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 rounded-lg transition-all duration-200 group cursor-pointer"
                                             aria-label="Mes anterior"
                                         >
                                             <svg
@@ -145,7 +146,8 @@ const CalendarPage = () => {
 
                                         <button
                                             onClick={goToNextMonth}
-                                            className="p-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 rounded-lg transition-all duration-200 group"
+                                            /* CAMBIO: Agregado cursor-pointer */
+                                            className="p-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 rounded-lg transition-all duration-200 group cursor-pointer"
                                             aria-label="Mes siguiente"
                                         >
                                             <svg
@@ -186,6 +188,7 @@ const CalendarPage = () => {
                                                     key={index}
                                                     onClick={() => day && setSelectedDate(day)}
                                                     disabled={!day}
+                                                    /* CAMBIO: La lógica original ya incluía cursor-pointer condicionalmente, se mantiene correcta */
                                                     className={`
                                                         aspect-square flex flex-col items-center justify-center
                                                         rounded-lg transition-all duration-300
@@ -252,7 +255,8 @@ const CalendarPage = () => {
                                             </h3>
                                             <button
                                                 onClick={() => setSelectedDate(null)}
-                                                className="text-neutral-400 hover:text-white transition-colors p-1"
+                                                /* CAMBIO: Agregado cursor-pointer */
+                                                className="text-neutral-400 hover:text-white transition-colors p-1 cursor-pointer"
                                                 aria-label="Cerrar detalles del evento"
                                             >
                                                 <svg
@@ -313,7 +317,8 @@ const CalendarPage = () => {
                                                 <button
                                                     key={day}
                                                     onClick={() => setSelectedDate(parseInt(day))}
-                                                    className="w-full text-left p-4 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-primary-500/30 rounded-lg transition-all duration-300 group"
+                                                    /* CAMBIO: Agregado cursor-pointer */
+                                                    className="w-full text-left p-4 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-primary-500/30 rounded-lg transition-all duration-300 group cursor-pointer"
                                                 >
                                                     <div className="flex items-start gap-3">
                                                         <div className="w-12 h-12 bg-primary-500/10 border border-primary-500/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500/20 transition-colors">
