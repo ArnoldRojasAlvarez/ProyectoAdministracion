@@ -210,7 +210,9 @@ const MenuPage = () => {
                                                 </h3>
                                             </div>
                                             <div className="text-2xl font-bold" style={{ color: '#b8812e' }}>
-                                                {item.price}
+                                                {typeof item.price === 'string' && item.price.includes('₡') 
+                                                    ? item.price 
+                                                    : `₡${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}`}
                                             </div>
                                         </div>
 

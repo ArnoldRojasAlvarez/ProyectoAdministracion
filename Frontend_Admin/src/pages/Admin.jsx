@@ -65,7 +65,7 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'confirm' })
               shadow-lg shadow-red-600/25
             "
           >
-            Eliminar
+            Aceptar
           </button>
         </div>
       </div>
@@ -759,11 +759,11 @@ const AdminPage = () => {
                       {/* Price Field */}
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-neutral-300">
-                          Precio (USD)
+                          Precio (CRC)
                           <span className="text-accent-500 ml-1">*</span>
                         </label>
                         <div className="relative">
-                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">$</span>
+                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">₡</span>
                           <input
                             type="number"
                             name="precio"
@@ -911,7 +911,7 @@ const AdminPage = () => {
                                   </p>
                                 </div>
                                 <span className="text-2xl font-bold whitespace-nowrap" style={{ color: '#b8812e' }}>
-                                  ${item.precio.toFixed(2)}
+                                  ₡{item.precio.toFixed(2)}
                                 </span>
                               </div>
                               

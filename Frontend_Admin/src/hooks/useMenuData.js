@@ -29,7 +29,7 @@ const transformData = (apiData) => {
                 id: item.idproducto,
                 name: item.nombre,
                 description: item.descripcion,
-                price: `$${item.precio}`,
+                price: `${item.precio}`,
                 available: item.disponible,
                 img: item.img || null,  // ← Add this line
             };
