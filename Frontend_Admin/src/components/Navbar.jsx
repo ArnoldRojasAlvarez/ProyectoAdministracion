@@ -37,29 +37,29 @@ const Navbar = () => {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4 sm:py-5">
                     {/* Logo */}
-                    <a 
-                        href="/" 
-                        className="flex items-center space-x-2 group cursor-pointer"
-                    >
-                        <div className="relative">
-                            <div className="absolute inset-0 bg-[#b8812e] blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
-                            <img
-                                src="https://tilapiasquecoscr.com/wp-content/uploads/2023/04/Steak-House.png"
-                                alt="Quecos Steakhouse Logo"
-                                className="w-12 h-12 sm:w-16 sm:h-16 object-contain relative"
-                            />
-                        </div>
-                        <div>
-                            <div className="text-white text-xl sm:text-2xl font-bold tracking-[0.3em]">
-                                QUECOS
-                            </div>
-                            <div className="text-[#b8812e] text-[8px] sm:text-[10px] tracking-[0.2em] -mt-1">
-                                STEAK HOUSE
-                            </div>
-                        </div>
-                    </a>
+                                        <a 
+                                            href="/" 
+                                            className="flex items-center space-x-2 group cursor-pointer"
+                                        >
+                                            <div className="relative">
+                                                <div className="absolute inset-0 bg-[#b8812e] blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
+                                                <img
+                                                    src="/src/assets/images/Steak-House.png"
+                                                    alt="Quecos Steakhouse Logo"
+                                                    className="w-12 h-12 sm:w-16 sm:h-16 object-contain relative"
+                                                />
+                                            </div>
+                                            <div>
+                                                <div className="text-white text-xl sm:text-2xl font-bold tracking-[0.3em]">
+                                                    QUECOS
+                                                </div>
+                                                <div className="text-[#b8812e] text-[8px] sm:text-[10px] tracking-[0.2em] -mt-1">
+                                                    STEAK HOUSE
+                                                </div>
+                                            </div>
+                                        </a>
 
-                    {/* Desktop Navigation & Cart */}
+                                        {/* Desktop Navigation & Cart */}
                     <div className="hidden lg:flex items-center space-x-8">
                         {navLinks.map((link) => (
                             <a

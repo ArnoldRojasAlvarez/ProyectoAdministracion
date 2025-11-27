@@ -774,9 +774,6 @@
     --tw-border-style: dashed;
     border-style: dashed;
   }
-  .border-\[\#b8812e\]\/30 {
-    border-color: color-mix(in oklab, #b8812e 30%, transparent);
-  }
   .border-neutral-400 {
     border-color: var(--color-neutral-400);
   }
@@ -1595,19 +1592,9 @@
       display: inline;
     }
   }
-  .sm\:h-10 {
-    @media (width >= 40rem) {
-      height: calc(var(--spacing) * 10);
-    }
-  }
   .sm\:h-16 {
     @media (width >= 40rem) {
       height: calc(var(--spacing) * 16);
-    }
-  }
-  .sm\:w-10 {
-    @media (width >= 40rem) {
-      width: calc(var(--spacing) * 10);
     }
   }
   .sm\:w-16 {
