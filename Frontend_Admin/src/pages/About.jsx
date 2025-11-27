@@ -68,10 +68,10 @@ const AboutPage = () => {
                                 </div>
 
                                 <p className="text-base md:text-lg leading-relaxed text-neutral-300">
-                                    PrimeCut es más que un asadero—es una celebración del arte 
-                                    culinario. Nacimos de la pasión por la excelencia y nos hemos 
-                                    ganado nuestra reputación seleccionando únicamente los mejores 
-                                    cortes y tratando cada pieza con el respeto que merece.
+                                    Restaurantes de comida exclusiva, destacándonos por ofrecer la mejor tilapia de Costa Rica, 
+                                    con más de 23 años de experiencia. Ubicado en el hermoso cantón de San Carlos, 
+                                    a sólo 15 minutos del centro, se encontrará con un pequeño pueblo llamado La Marina. 
+                                    Donde nos preocupamos por atenderles de la mejor manera, manteniendo viva la esencia del ser costarricense.
                                 </p>
 
                                 <p className="text-base md:text-lg leading-relaxed text-neutral-300">
@@ -100,63 +100,60 @@ const AboutPage = () => {
                             </div>
                         </div>
 
-                        {/* Art of the Grill Section */}
-                        <div
-                            id="section2"
-                            className="observe grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center"
-                        >
-                            <div
-                                className={`order-2 lg:order-1 transition-all duration-1000 ${isVisible.section2
-                                        ? 'opacity-100 translate-x-0'
-                                        : 'opacity-0 -translate-x-10'
-                                    }`}
-                            >
-                                <div className="relative group">
-                                    <div className="absolute -inset-4 bg-gradient-to-r from-accent-500 to-primary-500 rounded-2xl opacity-20 group-hover:opacity-30 blur-xl transition-opacity duration-500" />
-                                    <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border-2 border-neutral-800 group-hover:border-primary-500/30 transition-all duration-500 shadow-2xl shadow-black/20">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80"
-                                            alt="El Arte del Asado"
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                        /* Art of the Grill Section */
+                                                <div
+                                                    id="section2"
+                                                    className="observe grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center"
+                                                >
+                                                    <div
+                                                        className={`order-2 lg:order-1 transition-all duration-1000 ${isVisible.section2
+                                                                ? 'opacity-100 translate-x-0'
+                                                                : 'opacity-0 -translate-x-10'
+                                                            }`}
+                                                    >
+                                                        <div className="relative group">
+                                                            <div className="absolute -inset-4 bg-gradient-to-r from-accent-500 to-primary-500 rounded-2xl opacity-20 group-hover:opacity-30 blur-xl transition-opacity duration-500" />
+                                                            <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border-2 border-neutral-800 group-hover:border-primary-500/30 transition-all duration-500 shadow-2xl shadow-black/20">
+                                                                <img
+                                                                    src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80"
+                                                                    alt="El Arte del Asado"
+                                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                            <div
-                                className={`order-1 lg:order-2 space-y-6 transition-all duration-1000 ${isVisible.section2
-                                        ? 'opacity-100 translate-x-0'
-                                        : 'opacity-0 translate-x-10'
-                                    }`}
-                            >
-                                <div className="space-y-4">
-                                    <div className="w-16 h-1 bg-primary-500 rounded-full" />
-                                    <h2
-                                        className="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight"
-                                        style={{ fontFamily: 'Georgia, serif' }}
-                                    >
-                                        El Arte del Asado
-                                    </h2>
-                                </div>
+                                                    <div
+                                                        className={`order-1 lg:order-2 space-y-6 transition-all duration-1000 ${isVisible.section2
+                                                                ? 'opacity-100 translate-x-0'
+                                                                : 'opacity-0 translate-x-10'
+                                                            }`}
+                                                    >
+                                                        <div className="space-y-4">
+                                                            <div className="w-16 h-1 bg-primary-500 rounded-full" />
+                                                            <h2
+                                                                className="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight"
+                                                                style={{ fontFamily: 'Georgia, serif' }}
+                                                            >
+                                                                Nuestra Misión
+                                                            </h2>
+                                                        </div>
 
-                                <p className="text-base md:text-lg leading-relaxed text-neutral-300">
-                                    El fuego es nuestro lienzo y la parrilla donde ocurre la magia. 
-                                    Nuestros maestros chef entienden que preparar el corte perfecto 
-                                    es ciencia y arte. Cada pieza se selecciona cuidadosamente, se 
-                                    madura a la perfección y se sella a temperaturas precisas.
-                                </p>
+                                                        <p className="text-base md:text-lg leading-relaxed text-neutral-300">
+                                                            Brindar una experiencia gastronómica única por su sabor, calidad y por el servicio eficiente que demandan nuestros clientes. 
+                                                            Ofrecer productos orgánicos que vienen desde nuestro campo.
+                                                        </p>
 
-                                <p className="text-base md:text-lg leading-relaxed text-neutral-300">
-                                    Desde el momento en que el corte toca la llama hasta que llega 
-                                    a tu mesa, cada paso se ejecuta con atención meticulosa. No solo 
-                                    cocinamos carnes—creamos experiencias memorables.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                                                        <p className="text-base md:text-lg leading-relaxed text-neutral-300">
+                                                            Cada ingrediente es seleccionado con cuidado para garantizar que nuestros clientes 
+                                                            reciban lo mejor de la naturaleza en cada platillo.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
 
-                {/* Quote Section */}
+                                        {/* Quote Section */}
                 <section className="relative bg-gradient-to-r from-accent-500 via-primary-500 to-accent-500 text-white py-16 md:py-20 overflow-hidden">
                     <div className="absolute inset-0 opacity-10">
                         <div
@@ -181,8 +178,7 @@ const AboutPage = () => {
                             className="text-2xl md:text-3xl lg:text-4xl font-light italic max-w-4xl mx-auto leading-relaxed"
                             style={{ fontFamily: 'Georgia, serif' }}
                         >
-                            "El corte perfecto no se cocina, se elabora con pasión, 
-                            precisión y un compromiso inquebrantable con la excelencia."
+                            "Disfruta con la familia o amigos de grandiosos platillos hechos con ingredientes totalmente artesanales, desde nuestros campos a tu mesa."
                         </h3>
 
                         <div className="w-20 h-1 bg-white/30 mx-auto mt-8 rounded-full" />

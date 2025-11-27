@@ -39,25 +39,22 @@ const Navbar = () => {
                     {/* Logo */}
                     <a 
                         href="/" 
-                        /* CAMBIO: Agregado cursor-pointer */
                         className="flex items-center space-x-2 group cursor-pointer"
                     >
                         <div className="relative">
                             <div className="absolute inset-0 bg-[#b8812e] blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
-                            <svg
-                                className="w-8 h-8 sm:w-10 sm:h-10 text-[#b8812e] relative"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-4 0-7-3-7-7V8.5l7-3.5 7 3.5V13c0 4-3 7-7 7z" />
-                            </svg>
+                            <img
+                                src="https://tilapiasquecoscr.com/wp-content/uploads/2023/04/Steak-House.png"
+                                alt="Quecos Steakhouse Logo"
+                                className="w-12 h-12 sm:w-16 sm:h-16 object-contain relative"
+                            />
                         </div>
                         <div>
                             <div className="text-white text-xl sm:text-2xl font-bold tracking-[0.3em]">
                                 QUECOS
                             </div>
                             <div className="text-[#b8812e] text-[8px] sm:text-[10px] tracking-[0.2em] -mt-1">
-                                STEAKHOUSE
+                                STEAK HOUSE
                             </div>
                         </div>
                     </a>
